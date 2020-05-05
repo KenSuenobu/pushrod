@@ -2,4 +2,4 @@
 #
 # Builds the documentation
 
-cargo doc --no-deps
+cargo doc --no-deps --all
