@@ -15,6 +15,12 @@ include = [
     "Cargo.toml",
 ]
 
+[workspace]
+members = [
+    "pushrod-events",
+    "pushrod-widgets",
+]
+
 [lib]
 name = "pushrod"
 path = "src/lib.rs"
