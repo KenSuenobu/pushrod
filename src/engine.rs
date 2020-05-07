@@ -19,29 +19,30 @@ use sdl2::pixels::Color;
 
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use std::thread::sleep;
+use pushrod_events::event::Event;
 
-// /// This is an event handler that is passed into a main event loop.  Since there can be multiple
-// /// windows open at any one time, the event handler that is implemented using this `trait` should
-// /// be for the window with which it is interacting.
-// ///
-// /// It is inadvisable to create a single event handler "catch-all" for all application windows.
-// /// You will most likely get unexpected results.
-// pub trait EventHandler {
-//     /// This is the event handler that should be implemented when the `Event` handler is used.
-//     /// It provides the currently active widget ID and the event that was generated.
-//     /// Any events that could not be translated by `Pushrod` are either swallowed, or handled
-//     /// directly by the `run` method.
-//     fn handle_event(&mut self, current_widget_id: u32, event: PushrodEvent);
-// }
-//
-// /// This is a `Pushrod` event handler struct.  All of the members of this object are
-// /// private, and used to track interaction with widgets on the screen, and other `SDL2`-related
-// /// events.
-// pub struct Event {
-//     current_widget_id: u32,
-//     handler: Box<EventHandler>,
-// }
-//
+/// This is an event handler that is passed into a main event loop.  Since there can be multiple
+/// windows open at any one time, the event handler that is implemented using this `trait` should
+/// be for the window with which it is interacting.
+///
+/// It is inadvisable to create a single event handler "catch-all" for all application windows.
+/// You will most likely get unexpected results.
+pub trait EventHandler {
+    /// This is the event handler that should be implemented when the `Event` handler is used.
+    /// It provides the currently active widget ID and the event that was generated.
+    /// Any events that could not be translated by `Pushrod` are either swallowed, or handled
+    /// directly by the `run` method.
+    fn handle_event(&mut self, current_widget_id: u32, event: Event);
+}
+
+/// This is a `Pushrod` main loop struct.  All of the members of this object are
+/// private, and used to track interaction with widgets on the screen, and other `SDL2`-related
+/// events.
+pub struct Pushrod {
+    current_widget_id: u32,
+    handler: Box<EventHandler>,
+}
+
 // /// This is an implementation of `Event`, the main event handler for `Pushrod`.  Multiple `Event`
 // /// handlers can be created for multiple windows if your application provides more than one window
 // /// with which to interact.
