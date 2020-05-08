@@ -43,18 +43,19 @@ pub struct Pushrod {
     handler: Box<EventHandler>,
 }
 
-// /// This is an implementation of `Event`, the main event handler for `Pushrod`.  Multiple `Event`
-// /// handlers can be created for multiple windows if your application provides more than one window
-// /// with which to interact.
-// impl Event {
-//     /// Creates a new `Event` handler, taking a reference to the `EventHandler`.
-//     pub fn new(handler: Box<EventHandler>) -> Self {
-//         Self {
-//             current_widget_id: 0,
-//             handler,
-//         }
-//     }
-//
+/// This is an implementation of `Pushrod`, the main loop handler.  Multiple `Pushrod`s
+/// can be created for multiple windows if your application provides more than one window
+/// with which to interact.
+impl Pushrod {
+    /// Creates a new `Pushrod` run loop, taking a reference to the `EventHandler` that handles
+    /// run loop events for this `Window`.
+    pub fn new(handler: Box<EventHandler>) -> Self {
+        Self {
+            current_widget_id: 0,
+            handler,
+        }
+    }
+
 //     /// This is the main event handler for the application.  It handles all of the events generated
 //     /// by the `SDL2` manager, and translates them into events that can be used by the `handle_event`
 //     /// method.
@@ -96,5 +97,5 @@ pub struct Pushrod {
 //             }
 //         }
 //     }
-//
-// }
+
+}
