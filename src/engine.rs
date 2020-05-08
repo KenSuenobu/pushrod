@@ -40,7 +40,7 @@ pub trait EventHandler {
 /// events.
 pub struct Pushrod {
     current_widget_id: u32,
-    handler: Box<EventHandler>,
+    handler: Box<dyn EventHandler>,
 }
 
 /// This is an implementation of `Pushrod`, the main loop handler.  Multiple `Pushrod`s
@@ -49,7 +49,7 @@ pub struct Pushrod {
 impl Pushrod {
     /// Creates a new `Pushrod` run loop, taking a reference to the `EventHandler` that handles
     /// run loop events for this `Window`.
-    pub fn new(handler: Box<EventHandler>) -> Self {
+    pub fn new(handler: Box<dyn EventHandler>) -> Self {
         Self {
             current_widget_id: 0,
             handler,
