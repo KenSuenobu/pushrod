@@ -56,46 +56,46 @@ impl Pushrod {
         }
     }
 
-//     /// This is the main event handler for the application.  It handles all of the events generated
-//     /// by the `SDL2` manager, and translates them into events that can be used by the `handle_event`
-//     /// method.
-//     fn run(&mut self, sdl: Sdl, window: Window) {
-//         let mut event_pump = sdl.event_pump().unwrap();
-//         let fps_as_ms = (1000.0 / 60 as f64) as u128;
-//         let mut canvas = window
-//             .into_canvas()
-//             .target_texture()
-//             .accelerated()
-//             .build()
-//             .unwrap();
-//
-//         canvas.set_draw_color(Color::RGB(255, 255, 255));
-//         canvas.clear();
-//         canvas.present();
-//
-//         'running: loop {
-//             let start = SystemTime::now()
-//                 .duration_since(UNIX_EPOCH)
-//                 .unwrap()
-//                 .as_millis();
-//
-//             for event in event_pump.poll_iter() {
-//                 eprintln!("Event: {:?}", event);
-//             }
-//
-//             canvas.present();
-//
-//             let now = SystemTime::now()
-//                 .duration_since(UNIX_EPOCH)
-//                 .unwrap()
-//                 .as_millis();
-//
-//             if now - start < fps_as_ms {
-//                 let diff = fps_as_ms - (now - start);
-//
-//                 sleep(Duration::from_millis(diff as u64));
-//             }
-//         }
-//     }
+    /// This is the main event handler for the application.  It handles all of the events generated
+    /// by the `SDL2` manager, and translates them into events that can be used by the `handle_event`
+    /// method.
+    fn run(&mut self, sdl: Sdl, window: Window) {
+        let mut event_pump = sdl.event_pump().unwrap();
+        let fps_as_ms = (1000.0 / 60 as f64) as u128;
+        let mut canvas = window
+            .into_canvas()
+            .target_texture()
+            .accelerated()
+            .build()
+            .unwrap();
+
+        canvas.set_draw_color(Color::RGB(255, 255, 255));
+        canvas.clear();
+        canvas.present();
+
+        'running: loop {
+            let start = SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_millis();
+
+            for event in event_pump.poll_iter() {
+                eprintln!("Event: {:?}", event);
+            }
+
+            canvas.present();
+
+            let now = SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_millis();
+
+            if now - start < fps_as_ms {
+                let diff = fps_as_ms - (now - start);
+
+                sleep(Duration::from_millis(diff as u64));
+            }
+        }
+    }
 
 }
