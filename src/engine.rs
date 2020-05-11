@@ -20,6 +20,7 @@ use sdl2::pixels::Color;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use std::thread::sleep;
 use pushrod_events::event::Event;
+use pushrod_widgets::caches::WidgetCache;
 
 /// This is an event handler that is passed into a main event loop.  Since there can be multiple
 /// windows open at any one time, the event handler that is implemented using this `trait` should
@@ -41,6 +42,7 @@ pub trait EventHandler {
 pub struct Pushrod {
     current_widget_id: u32,
     handler: Box<dyn EventHandler>,
+    cache: WidgetCache,
 }
 
 /// This is an implementation of `Pushrod`, the main loop handler.  Multiple `Pushrod`s
@@ -53,6 +55,7 @@ impl Pushrod {
         Self {
             current_widget_id: 0,
             handler,
+            cache: WidgetCache::default(),
         }
     }
 
@@ -81,6 +84,10 @@ impl Pushrod {
 
             for event in event_pump.poll_iter() {
                 eprintln!("Event: {:?}", event);
+            }
+
+            if self.cache.invalidated() {
+                eprintln!("Widget invalidated.");
             }
 
             canvas.present();
