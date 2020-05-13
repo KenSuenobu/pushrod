@@ -86,9 +86,7 @@ impl Pushrod {
                 eprintln!("Event: {:?}", event);
             }
 
-            if self.cache.invalidated() {
-                eprintln!("Widget invalidated.");
-            }
+            // Draw canvas objects here
 
             canvas.present();
 
