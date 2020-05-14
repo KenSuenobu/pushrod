@@ -61,6 +61,11 @@ impl Pushrod {
         }
     }
 
+    /// Stops the Pushrod run loop.
+    pub fn stop(&mut self) {
+        self.running = false;
+    }
+
     /// This is the main event handler for the application.  It handles all of the events generated
     /// by the `SDL2` manager, and translates them into events that can be used by the `handle_event`
     /// method.
