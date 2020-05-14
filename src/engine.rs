@@ -13,14 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use sdl2::pixels::Color;
 use sdl2::video::Window;
 use sdl2::Sdl;
-use sdl2::pixels::Color;
 
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
-use std::thread::sleep;
 use pushrod_events::event::Event;
 use pushrod_widgets::caches::WidgetCache;
+use std::thread::sleep;
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 /// This is an event handler that is passed into a main event loop.  Since there can be multiple
 /// windows open at any one time, the event handler that is implemented using this `trait` should
@@ -86,7 +86,7 @@ impl Pushrod {
                 eprintln!("Event: {:?}", event);
             }
 
-            // Draw canvas objects here
+            self.cache.draw(0, &mut canvas);
 
             canvas.present();
 
@@ -102,5 +102,4 @@ impl Pushrod {
             }
         }
     }
-
 }
