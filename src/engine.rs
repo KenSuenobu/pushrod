@@ -43,6 +43,7 @@ pub struct Pushrod {
     current_widget_id: u32,
     handler: Box<dyn EventHandler>,
     cache: WidgetCache,
+    running: bool,
 }
 
 /// This is an implementation of `Pushrod`, the main loop handler.  Multiple `Pushrod`s
@@ -56,6 +57,7 @@ impl Pushrod {
             current_widget_id: 0,
             handler,
             cache: WidgetCache::default(),
+            running: true,
         }
     }
 
@@ -99,6 +101,10 @@ impl Pushrod {
                 let diff = fps_as_ms - (now - start);
 
                 sleep(Duration::from_millis(diff as u64));
+            }
+
+            if !self.running {
+                break 'running;
             }
         }
     }
