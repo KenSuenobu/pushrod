@@ -71,7 +71,7 @@ impl Pushrod {
     /// method.
     fn run(&mut self, sdl: Sdl, window: Window) {
         let mut event_pump = sdl.event_pump().unwrap();
-        let fps_as_ms = (1000.0 / 60 as f64) as u128;
+        let fps_as_ms = (1000.0 / 60_f64) as u128;
         let mut canvas = window
             .into_canvas()
             .target_texture()
