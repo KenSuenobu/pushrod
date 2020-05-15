@@ -89,12 +89,15 @@ impl Pushrod {
                 .unwrap()
                 .as_millis();
 
+            // Process events first
             for event in event_pump.poll_iter() {
                 eprintln!("Event: {:?}", event);
             }
 
+            // Draw after events are processed.
             self.cache.draw(0, &mut canvas);
 
+            // Then swap the canvas once the draw is complete.
             canvas.present();
 
             let now = SystemTime::now()
