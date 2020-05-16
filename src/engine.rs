@@ -39,7 +39,7 @@ pub trait EventHandler {
 /// This is a `Pushrod` main loop struct.  All of the members of this object are
 /// private, and used to track interaction with widgets on the screen, and other `SDL2`-related
 /// events.
-pub struct Pushrod {
+pub struct Engine {
     current_widget_id: u32,
     handler: Box<dyn EventHandler>,
     cache: WidgetCache,
@@ -49,7 +49,7 @@ pub struct Pushrod {
 /// This is an implementation of `Pushrod`, the main loop handler.  Multiple `Pushrod`s
 /// can be created for multiple windows if your application provides more than one window
 /// with which to interact.
-impl Pushrod {
+impl Engine {
     /// Creates a new `Pushrod` run loop, taking a reference to the `EventHandler` that handles
     /// run loop events for this `Window`.
     pub fn new(handler: Box<dyn EventHandler>) -> Self {
@@ -66,10 +66,15 @@ impl Pushrod {
         self.running = false;
     }
 
+    /// Retrieves the `WidgetCache`.
+    pub fn get_cache(&mut self) -> &mut WidgetCache {
+        &mut self.cache
+    }
+
     /// This is the main event handler for the application.  It handles all of the events generated
     /// by the `SDL2` manager, and translates them into events that can be used by the `handle_event`
     /// method.
-    fn run(&mut self, sdl: Sdl, window: Window) {
+    pub fn run(&mut self, sdl: Sdl, window: Window) {
         let mut event_pump = sdl.event_pump().unwrap();
         let fps_as_ms = (1000.0 / 60_f64) as u128;
         let mut canvas = window
@@ -78,6 +83,9 @@ impl Pushrod {
             .accelerated()
             .build()
             .unwrap();
+
+        // Generate the top level BaseWidget as widget ID 0, passing in x, y = 0,0, w, h = window size
+        // Call handler.build_layout() - new callback.
 
         canvas.set_draw_color(Color::RGB(255, 255, 255));
         canvas.clear();
@@ -95,7 +103,7 @@ impl Pushrod {
             }
 
             // Draw after events are processed.
-            self.cache.draw(0, &mut canvas);
+            // self.cache.draw(0, &mut canvas);
 
             // Then swap the canvas once the draw is complete.
             canvas.present();
