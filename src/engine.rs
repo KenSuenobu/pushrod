@@ -120,15 +120,17 @@ impl Engine {
                 }
             }
 
-            // Clear the canvas first.
-            canvas.set_draw_color(Color::RGBA(255, 255, 255, 255));
-            canvas.clear();
+            if self.cache.invalidated() {
+                // Clear the canvas first.
+                canvas.set_draw_color(Color::RGBA(255, 255, 255, 255));
+                canvas.clear();
 
-            // Draw after events are processed.
-            self.cache.draw(0, &mut canvas);
+                // Draw after events are processed.
+                self.cache.draw(0, &mut canvas);
 
-            // Then swap the canvas once the draw is complete.
-            canvas.present();
+                // Then swap the canvas once the draw is complete.
+                canvas.present();
+            }
 
             let now = SystemTime::now()
                 .duration_since(UNIX_EPOCH)
