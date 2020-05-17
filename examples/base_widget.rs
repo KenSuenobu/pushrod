@@ -42,11 +42,65 @@ impl EventHandler for PushrodExample {
             .properties()
             .set_origin(50, 50)
             .set_bounds(540, 380)
-            .set_value(PROPERTY_BORDER_WIDTH, 1)
+            .set_value(PROPERTY_BORDER_WIDTH, 3)
             .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(0, 0, 0, 255))
             .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(0, 255, 0, 255));
 
-        cache.add(Box::new(base_widget), String::from("widget1"), 0);
+        let base_widget_id = cache.add(Box::new(base_widget), String::from("widget1"), 0);
+
+        let mut box1 = BaseWidget::default();
+
+        &box1
+            .properties()
+            .set_origin(75, 75)
+            .set_bounds(490, 330)
+            .set_value(PROPERTY_BORDER_WIDTH, 1)
+            .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(255, 0, 0, 255))
+            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(0, 0, 255, 255));
+
+        let box1_id = cache.add(Box::new(box1), String::from("box1"), base_widget_id);
+
+        let mut box2 = BaseWidget::default();
+
+        &box2
+            .properties()
+            .set_origin(100, 100)
+            .set_bounds(75, 75)
+            .set_value(PROPERTY_BORDER_WIDTH, 1)
+            .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(255, 0, 0, 255))
+            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(255, 0, 255, 255));
+
+        let box2_id = cache.add(Box::new(box2), String::from("box2"), box1_id);
+
+        let mut box3 = BaseWidget::default();
+
+        &box3
+            .properties()
+            .set_origin(200, 100)
+            .set_bounds(75, 75)
+            .set_value(PROPERTY_BORDER_WIDTH, 1)
+            .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(255, 0, 0, 255))
+            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(255, 255, 0, 255));
+
+        let box3_id = cache.add(Box::new(box3), String::from("box3"), box1_id);
+
+        let mut box4 = BaseWidget::default();
+
+        &box4
+            .properties()
+            .set_origin(300, 100)
+            .set_bounds(75, 75)
+            .set_value(PROPERTY_BORDER_WIDTH, 1)
+            .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(255, 0, 0, 255))
+            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(0, 255, 255, 255));
+
+        let box4_id = cache.add(Box::new(box4), String::from("box4"), box1_id);
+
+        eprintln!("base_widget {}", base_widget_id);
+        eprintln!("box1 {}", box1_id);
+        eprintln!("box2 {}", box2_id);
+        eprintln!("box3 {}", box3_id);
+        eprintln!("box4 {}", box4_id);
     }
 }
 
