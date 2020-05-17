@@ -52,11 +52,11 @@ pub struct Engine {
 impl Engine {
     /// Creates a new `Pushrod` run loop, taking a reference to the `EventHandler` that handles
     /// run loop events for this `Window`.
-    pub fn new(handler: Box<dyn EventHandler>) -> Self {
+    pub fn new(handler: Box<dyn EventHandler>, window: &Window) -> Self {
         Self {
             current_widget_id: 0,
             handler,
-            cache: WidgetCache::default(),
+            cache: WidgetCache::new(window.size().0, window.size().1),
             running: true,
         }
     }
@@ -99,11 +99,14 @@ impl Engine {
 
             // Process events first
             for event in event_pump.poll_iter() {
-                eprintln!("Event: {:?}", event);
+                match event {
+                    sdl2::event::Event::Quit { .. } => break 'running,
+                    unhandled_event => eprintln!("Event: {:?}", unhandled_event),
+                }
             }
 
             // Draw after events are processed.
-            // self.cache.draw(0, &mut canvas);
+            self.cache.draw(0, &mut canvas);
 
             // Then swap the canvas once the draw is complete.
             canvas.present();
