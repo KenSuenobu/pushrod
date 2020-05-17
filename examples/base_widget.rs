@@ -38,11 +38,13 @@ impl EventHandler for PushrodExample {
 
         let mut base_widget = BaseWidget::default();
 
-        &base_widget.properties().set_origin(50, 50);
-        &base_widget.properties().set_bounds(540, 380);
-        &base_widget.properties().set_value(PROPERTY_BORDER_WIDTH, 1);
-        &base_widget.properties().set_color(PROPERTY_BORDER_COLOR, Color::RGBA(0, 0, 0, 255));
-        &base_widget.properties().set_color(PROPERTY_MAIN_COLOR, Color::RGBA(0, 255, 0, 255));
+        &base_widget
+            .properties()
+            .set_origin(50, 50)
+            .set_bounds(540, 380)
+            .set_value(PROPERTY_BORDER_WIDTH, 1)
+            .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(0, 0, 0, 255))
+            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(0, 255, 0, 255));
 
         cache.add(Box::new(base_widget), String::from("widget1"), 0);
     }
