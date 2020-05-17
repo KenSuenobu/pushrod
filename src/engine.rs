@@ -92,10 +92,6 @@ impl Engine {
         // Call handler.build_layout() - new callback.
         self.handler.build_layout(&mut self.cache);
 
-        canvas.set_draw_color(Color::RGB(255, 255, 255));
-        canvas.clear();
-        canvas.present();
-
         'running: loop {
             let start = SystemTime::now()
                 .duration_since(UNIX_EPOCH)
@@ -123,6 +119,10 @@ impl Engine {
                     unhandled_event => eprintln!("Event: {:?}", unhandled_event),
                 }
             }
+
+            // Clear the canvas first.
+            canvas.set_draw_color(Color::RGB(255, 255, 255));
+            canvas.clear();
 
             // Draw after events are processed.
             self.cache.draw(0, &mut canvas);
