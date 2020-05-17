@@ -17,7 +17,7 @@ use sdl2::pixels::Color;
 use sdl2::video::Window;
 use sdl2::Sdl;
 
-use pushrod_events::event::Event;
+use pushrod_events::event::{Event, PushrodEvent};
 use pushrod_widgets::caches::WidgetCache;
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
@@ -34,7 +34,7 @@ pub trait EventHandler {
     /// Any events that could not be translated by `Pushrod` are either swallowed, or handled
     /// directly by the `run` method.  The cache is also provide as a way to get access to any
     /// `Widget`s in the list that need to be modified as the result of acting upon an `Event`.
-    fn handle_event(&mut self, current_widget_id: u32, event: Event, cache: &mut WidgetCache);
+    fn handle_event(&mut self, event: Event, cache: &mut WidgetCache);
 
     /// This callback is used when the screen needs to be built for the first time.  It is called
     /// by the `Engine`'s `run` method before the event loop starts.  The `cache` is sent such that
@@ -111,11 +111,29 @@ impl Engine {
                         self.current_widget_id = self.cache.id_at_point(x as u32, y as u32);
 
                         if cur_widget_id != self.current_widget_id {
-                            // Send event to previous widget that the mouse has left scope
-                            // Send event to current widget that the mouse has entered scope
+                            self.handler.handle_event(
+                                Event::Pushrod(PushrodEvent::WidgetMouseExited {
+                                    widget_id: cur_widget_id,
+                                }),
+                                &mut self.cache,
+                            );
 
-                            eprintln!("Current Widget ID: {}", self.current_widget_id);
+                            self.handler.handle_event(
+                                Event::Pushrod(PushrodEvent::WidgetMouseEntered {
+                                    widget_id: self.current_widget_id,
+                                }),
+                                &mut self.cache,
+                            );
                         }
+
+                        self.handler.handle_event(
+                            Event::Pushrod(PushrodEvent::MouseMoved {
+                                widget_id: self.current_widget_id,
+                                x: x as u32,
+                                y: y as u32,
+                            }),
+                            &mut self.cache,
+                        );
                     }
 
                     unhandled_event => eprintln!("Event: {:?}", unhandled_event),
