@@ -121,7 +121,7 @@ impl Engine {
             }
 
             // Clear the canvas first.
-            canvas.set_draw_color(Color::RGB(255, 255, 255));
+            canvas.set_draw_color(Color::RGBA(255, 255, 255, 255));
             canvas.clear();
 
             // Draw after events are processed.
