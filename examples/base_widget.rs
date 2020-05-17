@@ -20,6 +20,10 @@ use pushrod::engine::{EventHandler, Engine};
 use pushrod_events::event::Event;
 use pushrod_events::event::Event::Pushrod;
 use pushrod_widgets::caches::WidgetCache;
+use pushrod_widgets::system_widgets::base_widget::BaseWidget;
+use pushrod_widgets::widget::Widget;
+use pushrod_widgets::properties::{PROPERTY_BORDER_WIDTH, PROPERTY_BORDER_COLOR, PROPERTY_MAIN_COLOR};
+use sdl2::pixels::Color;
 
 #[derive(Default)]
 pub struct PushrodExample { }
@@ -31,6 +35,16 @@ impl EventHandler for PushrodExample {
 
     fn build_layout(&mut self, cache: &mut WidgetCache) {
         eprintln!("Layout called.");
+
+        let mut base_widget = BaseWidget::default();
+
+        &base_widget.properties().set_origin(50, 50);
+        &base_widget.properties().set_bounds(540, 380);
+        &base_widget.properties().set_value(PROPERTY_BORDER_WIDTH, 1);
+        &base_widget.properties().set_color(PROPERTY_BORDER_COLOR, Color::RGBA(0, 0, 0, 255));
+        &base_widget.properties().set_color(PROPERTY_MAIN_COLOR, Color::RGBA(0, 255, 0, 255));
+
+        cache.add(Box::new(base_widget), String::from("widget1"), 0);
     }
 }
 
