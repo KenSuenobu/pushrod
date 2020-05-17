@@ -34,6 +34,11 @@ pub trait EventHandler {
     /// Any events that could not be translated by `Pushrod` are either swallowed, or handled
     /// directly by the `run` method.
     fn handle_event(&mut self, current_widget_id: u32, event: Event);
+
+    /// This callback is used when the screen needs to be built for the first time.  It is called
+    /// by the `Engine`'s `run` method before the event loop starts.  The `cache` is sent such that
+    /// `Widget`s can be added to the display list by using the `WidgetCache`'s functions.
+    fn build_layout(&mut self, cache: &mut WidgetCache);
 }
 
 /// This is a `Pushrod` main loop struct.  All of the members of this object are
@@ -84,8 +89,8 @@ impl Engine {
             .build()
             .unwrap();
 
-        // Generate the top level BaseWidget as widget ID 0, passing in x, y = 0,0, w, h = window size
         // Call handler.build_layout() - new callback.
+        self.handler.build_layout(&mut self.cache);
 
         canvas.set_draw_color(Color::RGB(255, 255, 255));
         canvas.clear();
@@ -101,6 +106,20 @@ impl Engine {
             for event in event_pump.poll_iter() {
                 match event {
                     sdl2::event::Event::Quit { .. } => break 'running,
+
+                    sdl2::event::Event::MouseMotion { x, y, .. } => {
+                        let cur_widget_id = self.current_widget_id;
+
+                        self.current_widget_id = self.cache.id_at_point(x as u32, y as u32);
+
+                        if cur_widget_id != self.current_widget_id {
+                            // Send event to previous widget that the mouse has left scope
+                            // Send event to current widget that the mouse has entered scope
+                        }
+
+                        eprintln!("Widget ID: {}", self.current_widget_id);
+                    }
+
                     unhandled_event => eprintln!("Event: {:?}", unhandled_event),
                 }
             }

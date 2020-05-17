@@ -19,6 +19,7 @@ extern crate sdl2;
 use pushrod::engine::{EventHandler, Engine};
 use pushrod_events::event::Event;
 use pushrod_events::event::Event::Pushrod;
+use pushrod_widgets::caches::WidgetCache;
 
 #[derive(Default)]
 pub struct PushrodExample { }
@@ -26,6 +27,10 @@ pub struct PushrodExample { }
 impl EventHandler for PushrodExample {
     fn handle_event(&mut self, current_widget_id: u32, event: Event) {
         eprintln!("Event received: {:?}", event);
+    }
+
+    fn build_layout(&mut self, cache: &mut WidgetCache) {
+        eprintln!("Layout called.");
     }
 }
 
