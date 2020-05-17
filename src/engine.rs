@@ -32,8 +32,9 @@ pub trait EventHandler {
     /// This is the event handler that should be implemented when the `Event` handler is used.
     /// It provides the currently active widget ID and the event that was generated.
     /// Any events that could not be translated by `Pushrod` are either swallowed, or handled
-    /// directly by the `run` method.
-    fn handle_event(&mut self, current_widget_id: u32, event: Event);
+    /// directly by the `run` method.  The cache is also provide as a way to get access to any
+    /// `Widget`s in the list that need to be modified as the result of acting upon an `Event`.
+    fn handle_event(&mut self, current_widget_id: u32, event: Event, cache: &mut WidgetCache);
 
     /// This callback is used when the screen needs to be built for the first time.  It is called
     /// by the `Engine`'s `run` method before the event loop starts.  The `cache` is sent such that
@@ -89,7 +90,8 @@ impl Engine {
             .build()
             .unwrap();
 
-        // Call handler.build_layout() - new callback.
+        // Call handler.build_layout() - this allows the application to build its `Window` contents,
+        // preparing the application for use.  (This is where the deserialization will occur.)
         self.handler.build_layout(&mut self.cache);
 
         'running: loop {
@@ -111,9 +113,9 @@ impl Engine {
                         if cur_widget_id != self.current_widget_id {
                             // Send event to previous widget that the mouse has left scope
                             // Send event to current widget that the mouse has entered scope
-                        }
 
-                        eprintln!("Widget ID: {}", self.current_widget_id);
+                            eprintln!("Current Widget ID: {}", self.current_widget_id);
+                        }
                     }
 
                     unhandled_event => eprintln!("Event: {:?}", unhandled_event),

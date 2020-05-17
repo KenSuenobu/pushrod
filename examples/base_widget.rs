@@ -29,7 +29,7 @@ use sdl2::pixels::Color;
 pub struct PushrodExample { }
 
 impl EventHandler for PushrodExample {
-    fn handle_event(&mut self, current_widget_id: u32, event: Event) {
+    fn handle_event(&mut self, current_widget_id: u32, event: Event, cache: &mut WidgetCache) {
         eprintln!("Event received: {:?}", event);
     }
 
