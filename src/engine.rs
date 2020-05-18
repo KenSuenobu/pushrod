@@ -146,7 +146,9 @@ impl Engine {
                 match event {
                     sdl2::event::Event::Quit { .. } => break 'running,
 
-                    sdl2::event::Event::MouseMotion { x, y, .. } => self.handle_mouse_move(x as u32, y as u32),
+                    sdl2::event::Event::MouseMotion { x, y, .. } => {
+                        self.handle_mouse_move(x as u32, y as u32)
+                    }
 
                     sdl2::event::Event::MouseButtonDown { mouse_btn, .. } => {
                         let event = PushrodEvent::MouseButton {
