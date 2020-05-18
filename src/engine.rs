@@ -126,11 +126,35 @@ impl Engine {
                             );
                         }
 
+                        let points = self.cache.get(self.current_widget_id).borrow_mut().properties().get_origin();
+
                         self.handler.handle_event(
                             Event::Pushrod(PushrodEvent::MouseMoved {
                                 widget_id: self.current_widget_id,
-                                x: x as u32,
-                                y: y as u32,
+                                x: (x - points.0 as i32) as u32,
+                                y: (y - points.1 as i32) as u32,
+                            }),
+                            &mut self.cache,
+                        );
+                    }
+
+                    sdl2::event::Event::MouseButtonDown { mouse_btn, .. } => {
+                        self.handler.handle_event(Event::Pushrod(
+                            PushrodEvent::MouseButton {
+                                widget_id: self.current_widget_id,
+                                button: mouse_btn as u32,
+                                state: true
+                            }),
+                            &mut self.cache,
+                        );
+                    }
+
+                    sdl2::event::Event::MouseButtonUp { mouse_btn, .. } => {
+                        self.handler.handle_event(Event::Pushrod(
+                            PushrodEvent::MouseButton {
+                                widget_id: self.current_widget_id,
+                                button: mouse_btn as u32,
+                                state: false
                             }),
                             &mut self.cache,
                         );
