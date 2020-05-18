@@ -17,7 +17,6 @@ include = [
 
 [workspace]
 members = [
-    "pushrod-events",
     "pushrod-widgets",
 ]
 
@@ -30,5 +29,4 @@ version = "^0.33"
 features = ["ttf", "image", "unsafe_textures"]
 
 [dependencies]
-pushrod-events = { version = "^0", path = "pushrod-events" }
 pushrod-widgets = { version = "^0", path = "pushrod-widgets" }
