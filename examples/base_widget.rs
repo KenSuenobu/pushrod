@@ -26,7 +26,6 @@ use pushrod_widgets::properties::{
 use pushrod_widgets::system_widgets::base_widget::BaseWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use std::borrow::BorrowMut;
 
 /// This const is used to store the original color of the `Widget` so that when the mouse leaves
 /// the scope of the `Widget`, its main color is restored.
@@ -111,9 +110,9 @@ impl EventHandler for PushrodExample {
             .set_origin(50, 50)
             .set_bounds(540, 380)
             .set_value(PROPERTY_BORDER_WIDTH, 1)
-            .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(0, 0, 0, 255))
-            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(0, 255, 0, 255))
-            .set_color(PROPERTY_ORIGINAL_COLOR, Color::RGBA(0, 255, 0, 255));
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
+            .set_color(PROPERTY_MAIN_COLOR, Color::GREEN)
+            .set_color(PROPERTY_ORIGINAL_COLOR, Color::GREEN);
 
         let base_widget_id = cache.add(Box::new(base_widget), String::from("widget1"), 0);
 
@@ -124,9 +123,9 @@ impl EventHandler for PushrodExample {
             .set_origin(75, 75)
             .set_bounds(490, 330)
             .set_value(PROPERTY_BORDER_WIDTH, 1)
-            .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(255, 0, 0, 255))
-            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(0, 0, 255, 255))
-            .set_color(PROPERTY_ORIGINAL_COLOR, Color::RGBA(0, 0, 255, 255));
+            .set_color(PROPERTY_BORDER_COLOR, Color::RED)
+            .set_color(PROPERTY_MAIN_COLOR, Color::BLUE)
+            .set_color(PROPERTY_ORIGINAL_COLOR, Color::BLUE);
 
         let box1_id = cache.add(Box::new(box1), String::from("box1"), base_widget_id);
 
@@ -137,9 +136,9 @@ impl EventHandler for PushrodExample {
             .set_origin(100, 100)
             .set_bounds(75, 75)
             .set_value(PROPERTY_BORDER_WIDTH, 1)
-            .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(255, 255, 255, 255))
-            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(255, 0, 255, 255))
-            .set_color(PROPERTY_ORIGINAL_COLOR, Color::RGBA(255, 0, 255, 255));
+            .set_color(PROPERTY_BORDER_COLOR, Color::WHITE)
+            .set_color(PROPERTY_MAIN_COLOR, Color::MAGENTA)
+            .set_color(PROPERTY_ORIGINAL_COLOR, Color::MAGENTA);
 
         cache.add(Box::new(box2), String::from("box2"), box1_id);
 
@@ -150,9 +149,9 @@ impl EventHandler for PushrodExample {
             .set_origin(200, 100)
             .set_bounds(75, 75)
             .set_value(PROPERTY_BORDER_WIDTH, 1)
-            .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(255, 255, 255, 255))
-            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(255, 255, 0, 255))
-            .set_color(PROPERTY_ORIGINAL_COLOR, Color::RGBA(255, 255, 0, 255));
+            .set_color(PROPERTY_BORDER_COLOR, Color::WHITE)
+            .set_color(PROPERTY_MAIN_COLOR, Color::CYAN)
+            .set_color(PROPERTY_ORIGINAL_COLOR, Color::CYAN);
 
         cache.add(Box::new(box3), String::from("box3"), box1_id);
 
@@ -163,9 +162,9 @@ impl EventHandler for PushrodExample {
             .set_origin(300, 100)
             .set_bounds(75, 75)
             .set_value(PROPERTY_BORDER_WIDTH, 1)
-            .set_color(PROPERTY_BORDER_COLOR, Color::RGBA(255, 255, 255, 255))
-            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(0, 255, 255, 255))
-            .set_color(PROPERTY_ORIGINAL_COLOR, Color::RGBA(0, 255, 255, 255));
+            .set_color(PROPERTY_BORDER_COLOR, Color::WHITE)
+            .set_color(PROPERTY_MAIN_COLOR, Color::YELLOW)
+            .set_color(PROPERTY_ORIGINAL_COLOR, Color::YELLOW);
 
         cache.add(Box::new(box4), String::from("box4"), box1_id);
     }
