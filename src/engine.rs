@@ -18,9 +18,9 @@ use sdl2::video::Window;
 use sdl2::Sdl;
 
 use pushrod_widgets::caches::WidgetCache;
+use pushrod_widgets::event::{Event, PushrodEvent};
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
-use pushrod_widgets::event::{Event, PushrodEvent};
 
 /// This is an event handler that is passed into a main event loop.  Since there can be multiple
 /// windows open at any one time, the event handler that is implemented using this `trait` should
@@ -150,10 +150,8 @@ impl Engine {
                             state: true,
                         };
 
-                        self.handler.handle_event(
-                            Event::Pushrod(event.clone()),
-                            &mut self.cache,
-                        );
+                        self.handler
+                            .handle_event(Event::Pushrod(event.clone()), &mut self.cache);
                     }
 
                     sdl2::event::Event::MouseButtonUp { mouse_btn, .. } => {
@@ -163,10 +161,8 @@ impl Engine {
                             state: false,
                         };
 
-                        self.handler.handle_event(
-                            Event::Pushrod(event.clone()),
-                            &mut self.cache,
-                        );
+                        self.handler
+                            .handle_event(Event::Pushrod(event.clone()), &mut self.cache);
                     }
 
                     unhandled_event => eprintln!("Event: {:?}", unhandled_event),
