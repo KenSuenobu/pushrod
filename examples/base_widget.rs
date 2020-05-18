@@ -67,14 +67,14 @@ impl EventHandler for PushrodExample {
                         .get(widget_id)
                         .borrow_mut()
                         .properties()
-                        .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(128, 128, 128, 255));
+                        .set_color(PROPERTY_MAIN_COLOR, Color::GREY);
                 }
                 PushrodEvent::WidgetMouseExited { widget_id } => {
                     let original_color = cache
                         .get(widget_id)
                         .borrow_mut()
                         .properties()
-                        .get_color(PROPERTY_ORIGINAL_COLOR, Color::RGBA(255, 255, 255, 255));
+                        .get_color(PROPERTY_ORIGINAL_COLOR, Color::WHITE);
 
                     cache
                         .get(widget_id)
