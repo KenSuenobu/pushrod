@@ -13,7 +13,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use sdl2::pixels::Color;
 use sdl2::video::Window;
 use sdl2::Sdl;
 
@@ -77,6 +76,48 @@ impl Engine {
         &mut self.cache
     }
 
+    /// This function handles the `MouseMotion` event, converting it into an `Event` that can be
+    /// used by `Pushrod`.  The X and Y coordinates are translated into relative offsets based on the
+    /// position of the `Widget`.  This way, the X and Y coordinates can be based on drawing
+    /// functions inside the `Widget` if necessary.
+    fn handle_mouse_move(&mut self, x: u32, y: u32) {
+        let cur_widget_id = self.current_widget_id;
+
+        self.current_widget_id = self.cache.id_at_point(x as u32, y as u32);
+
+        if cur_widget_id != self.current_widget_id {
+            self.handler.handle_event(
+                Event::Pushrod(PushrodEvent::WidgetMouseExited {
+                    widget_id: cur_widget_id,
+                }),
+                &mut self.cache,
+            );
+
+            self.handler.handle_event(
+                Event::Pushrod(PushrodEvent::WidgetMouseEntered {
+                    widget_id: self.current_widget_id,
+                }),
+                &mut self.cache,
+            );
+        }
+
+        let points = self
+            .cache
+            .get(self.current_widget_id)
+            .borrow_mut()
+            .properties()
+            .get_origin();
+
+        self.handler.handle_event(
+            Event::Pushrod(PushrodEvent::MouseMoved {
+                widget_id: self.current_widget_id,
+                x: (x - points.0),
+                y: (y - points.1),
+            }),
+            &mut self.cache,
+        );
+    }
+
     /// This is the main event handler for the application.  It handles all of the events generated
     /// by the `SDL2` manager, and translates them into events that can be used by the `handle_event`
     /// method.
@@ -105,43 +146,7 @@ impl Engine {
                 match event {
                     sdl2::event::Event::Quit { .. } => break 'running,
 
-                    sdl2::event::Event::MouseMotion { x, y, .. } => {
-                        let cur_widget_id = self.current_widget_id;
-
-                        self.current_widget_id = self.cache.id_at_point(x as u32, y as u32);
-
-                        if cur_widget_id != self.current_widget_id {
-                            self.handler.handle_event(
-                                Event::Pushrod(PushrodEvent::WidgetMouseExited {
-                                    widget_id: cur_widget_id,
-                                }),
-                                &mut self.cache,
-                            );
-
-                            self.handler.handle_event(
-                                Event::Pushrod(PushrodEvent::WidgetMouseEntered {
-                                    widget_id: self.current_widget_id,
-                                }),
-                                &mut self.cache,
-                            );
-                        }
-
-                        let points = self
-                            .cache
-                            .get(self.current_widget_id)
-                            .borrow_mut()
-                            .properties()
-                            .get_origin();
-
-                        self.handler.handle_event(
-                            Event::Pushrod(PushrodEvent::MouseMoved {
-                                widget_id: self.current_widget_id,
-                                x: (x - points.0 as i32) as u32,
-                                y: (y - points.1 as i32) as u32,
-                            }),
-                            &mut self.cache,
-                        );
-                    }
+                    sdl2::event::Event::MouseMotion { x, y, .. } => self.handle_mouse_move(x as u32, y as u32),
 
                     sdl2::event::Event::MouseButtonDown { mouse_btn, .. } => {
                         let event = PushrodEvent::MouseButton {
@@ -170,15 +175,8 @@ impl Engine {
             }
 
             if self.cache.invalidated() {
-                // Clear the canvas first.
-                canvas.set_draw_color(Color::RGBA(255, 255, 255, 255));
-                canvas.clear();
-
                 // Draw after events are processed.
-                self.cache.draw(0, &mut canvas);
-
-                // Then swap the canvas once the draw is complete.
-                canvas.present();
+                self.cache.refresh(&mut canvas);
             }
 
             let now = SystemTime::now()
