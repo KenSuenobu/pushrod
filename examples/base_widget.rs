@@ -17,8 +17,8 @@ extern crate pushrod;
 extern crate sdl2;
 
 use pushrod::engine::{Engine, EventHandler};
-use pushrod_events::event::{Event, PushrodEvent};
 use pushrod_events::event::Event::Pushrod;
+use pushrod_events::event::{Event, PushrodEvent};
 use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::properties::{
     PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_MAIN_COLOR,
@@ -36,39 +36,55 @@ pub struct PushrodExample {}
 impl EventHandler for PushrodExample {
     fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) {
         match event {
-            Pushrod(pushrod_event) => {
-                match pushrod_event {
-                    PushrodEvent::MouseMoved { .. } => {},
-                    PushrodEvent::MouseScrolled { .. } => {},
-                    PushrodEvent::MouseButton { .. } => {},
-                    PushrodEvent::WidgetClicked { .. } => {},
-                    PushrodEvent::WidgetSelected { .. } => {},
-                    PushrodEvent::WidgetToggled { .. } => {},
-                    PushrodEvent::WidgetRadioSelected { .. } => {},
-                    PushrodEvent::WidgetRadioUnselected { .. } => {},
-                    PushrodEvent::WidgetMouseEntered { widget_id, } => {
-                        cache.get(widget_id).borrow_mut().properties().set_value(PROPERTY_BORDER_WIDTH, 5);
-                        cache.get(widget_id).borrow_mut().properties().set_color(PROPERTY_MAIN_COLOR, Color::RGBA(128, 128, 128, 255));
-                        cache.get(widget_id).borrow_mut().invalidate();
-                    },
-                    PushrodEvent::WidgetMouseExited { widget_id, } => {
-                        let original_color = cache.get(widget_id).borrow_mut().properties().get_color(PROPERTY_ORIGINAL_COLOR, Color::RGBA(255, 255, 255, 255));
-
-                        cache.get(widget_id).borrow_mut().properties().set_value(PROPERTY_BORDER_WIDTH, 1);
-                        cache.get(widget_id).borrow_mut().properties().set_color(PROPERTY_MAIN_COLOR, original_color);
-                        cache.get(widget_id).borrow_mut().invalidate();
-                    },
-                    PushrodEvent::WidgetFocusGained { .. } => {},
-                    PushrodEvent::WidgetFocusLost { .. } => {},
-                    PushrodEvent::WidgetTabSelected { .. } => {},
-                    PushrodEvent::WidgetValueChanged { .. } => {},
-                    PushrodEvent::WidgetMoved { .. } => {},
-                    PushrodEvent::WidgetVisibilityChanged { .. } => {},
+            Pushrod(pushrod_event) => match pushrod_event {
+                PushrodEvent::MouseMoved { .. } => {}
+                PushrodEvent::MouseScrolled { .. } => {}
+                PushrodEvent::MouseButton { .. } => {}
+                PushrodEvent::WidgetClicked { .. } => {}
+                PushrodEvent::WidgetSelected { .. } => {}
+                PushrodEvent::WidgetToggled { .. } => {}
+                PushrodEvent::WidgetRadioSelected { .. } => {}
+                PushrodEvent::WidgetRadioUnselected { .. } => {}
+                PushrodEvent::WidgetMouseEntered { widget_id } => {
+                    cache
+                        .get(widget_id)
+                        .borrow_mut()
+                        .properties()
+                        .set_value(PROPERTY_BORDER_WIDTH, 5);
+                    cache
+                        .get(widget_id)
+                        .borrow_mut()
+                        .properties()
+                        .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(128, 128, 128, 255));
                 }
+                PushrodEvent::WidgetMouseExited { widget_id } => {
+                    let original_color = cache
+                        .get(widget_id)
+                        .borrow_mut()
+                        .properties()
+                        .get_color(PROPERTY_ORIGINAL_COLOR, Color::RGBA(255, 255, 255, 255));
+
+                    cache
+                        .get(widget_id)
+                        .borrow_mut()
+                        .properties()
+                        .set_value(PROPERTY_BORDER_WIDTH, 1);
+                    cache
+                        .get(widget_id)
+                        .borrow_mut()
+                        .properties()
+                        .set_color(PROPERTY_MAIN_COLOR, original_color);
+                }
+                PushrodEvent::WidgetFocusGained { .. } => {}
+                PushrodEvent::WidgetFocusLost { .. } => {}
+                PushrodEvent::WidgetTabSelected { .. } => {}
+                PushrodEvent::WidgetValueChanged { .. } => {}
+                PushrodEvent::WidgetMoved { .. } => {}
+                PushrodEvent::WidgetVisibilityChanged { .. } => {}
             },
             Event::SDL2(x) => {
                 eprintln!("SDL2 unhandled event: {:?}", x);
-            },
+            }
         }
     }
 
