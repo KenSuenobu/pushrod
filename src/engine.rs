@@ -144,6 +144,8 @@ impl Engine {
             // Process events first
             for event in event_pump.poll_iter() {
                 match event {
+                    // TODO Change this to a callback that allows the application to handle a
+                    // TODO closure of a window.  Returning true breaks the loop, false does not.
                     sdl2::event::Event::Quit { .. } => break 'running,
 
                     sdl2::event::Event::MouseMotion { x, y, .. } => {
