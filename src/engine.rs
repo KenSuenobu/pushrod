@@ -126,7 +126,12 @@ impl Engine {
                             );
                         }
 
-                        let points = self.cache.get(self.current_widget_id).borrow_mut().properties().get_origin();
+                        let points = self
+                            .cache
+                            .get(self.current_widget_id)
+                            .borrow_mut()
+                            .properties()
+                            .get_origin();
 
                         self.handler.handle_event(
                             Event::Pushrod(PushrodEvent::MouseMoved {
@@ -139,22 +144,22 @@ impl Engine {
                     }
 
                     sdl2::event::Event::MouseButtonDown { mouse_btn, .. } => {
-                        self.handler.handle_event(Event::Pushrod(
-                            PushrodEvent::MouseButton {
+                        self.handler.handle_event(
+                            Event::Pushrod(PushrodEvent::MouseButton {
                                 widget_id: self.current_widget_id,
                                 button: mouse_btn as u32,
-                                state: true
+                                state: true,
                             }),
                             &mut self.cache,
                         );
                     }
 
                     sdl2::event::Event::MouseButtonUp { mouse_btn, .. } => {
-                        self.handler.handle_event(Event::Pushrod(
-                            PushrodEvent::MouseButton {
+                        self.handler.handle_event(
+                            Event::Pushrod(PushrodEvent::MouseButton {
                                 widget_id: self.current_widget_id,
                                 button: mouse_btn as u32,
-                                state: false
+                                state: false,
                             }),
                             &mut self.cache,
                         );
