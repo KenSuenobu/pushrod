@@ -144,23 +144,27 @@ impl Engine {
                     }
 
                     sdl2::event::Event::MouseButtonDown { mouse_btn, .. } => {
+                        let event = PushrodEvent::MouseButton {
+                            widget_id: self.current_widget_id,
+                            button: mouse_btn as u32,
+                            state: true,
+                        };
+
                         self.handler.handle_event(
-                            Event::Pushrod(PushrodEvent::MouseButton {
-                                widget_id: self.current_widget_id,
-                                button: mouse_btn as u32,
-                                state: true,
-                            }),
+                            Event::Pushrod(event.clone()),
                             &mut self.cache,
                         );
                     }
 
                     sdl2::event::Event::MouseButtonUp { mouse_btn, .. } => {
+                        let event = PushrodEvent::MouseButton {
+                            widget_id: self.current_widget_id,
+                            button: mouse_btn as u32,
+                            state: false,
+                        };
+
                         self.handler.handle_event(
-                            Event::Pushrod(PushrodEvent::MouseButton {
-                                widget_id: self.current_widget_id,
-                                button: mouse_btn as u32,
-                                state: false,
-                            }),
+                            Event::Pushrod(event.clone()),
                             &mut self.cache,
                         );
                     }
