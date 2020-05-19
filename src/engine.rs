@@ -76,6 +76,23 @@ impl Engine {
         &mut self.cache
     }
 
+    /// Broadcasts a generated `PushrodEvent` to the current `Widget`, capturing the response, and
+    /// forwarding it on to the application if an event was returned.
+    fn send_event_to_widget(&mut self, event: PushrodEvent) {
+        let handled_event = self
+            .cache
+            .get(self.current_widget_id)
+            .borrow_mut()
+            .handle_event(event);
+
+        match handled_event {
+            Some(x) => self
+                .handler
+                .handle_event(Event::Pushrod(x), &mut self.cache),
+            None => {}
+        }
+    }
+
     /// This function handles the `MouseMotion` event, converting it into an `Event` that can be
     /// used by `Pushrod`.  The X and Y coordinates are translated into relative offsets based on the
     /// position of the `Widget`.  This way, the X and Y coordinates can be based on drawing
@@ -113,17 +130,24 @@ impl Engine {
             y: (y - points.1),
         };
 
-        self.handler.handle_event(
-            Event::Pushrod(event.clone()),
-            &mut self.cache,
-        );
+        self.handler
+            .handle_event(Event::Pushrod(event.clone()), &mut self.cache);
 
-        let handled_event = self.cache.get(self.current_widget_id).borrow_mut().handle_event(event);
+        self.send_event_to_widget(event);
+    }
 
-        match handled_event {
-            Some(x) => self.handler.handle_event(Event::Pushrod(x), &mut self.cache,),
-            None => {},
-        }
+    /// Handles a `MouseButton` event, which indicates that a mouse button has been pressed or released.
+    fn handle_mouse_button(&mut self, mouse_button: u32, state: bool) {
+        let event = PushrodEvent::MouseButton {
+            widget_id: self.current_widget_id,
+            button: mouse_button,
+            state,
+        };
+
+        self.handler
+            .handle_event(Event::Pushrod(event.clone()), &mut self.cache);
+
+        self.send_event_to_widget(event);
     }
 
     /// This is the main event handler for the application.  It handles all of the events generated
@@ -161,25 +185,11 @@ impl Engine {
                     }
 
                     sdl2::event::Event::MouseButtonDown { mouse_btn, .. } => {
-                        let event = PushrodEvent::MouseButton {
-                            widget_id: self.current_widget_id,
-                            button: mouse_btn as u32,
-                            state: true,
-                        };
-
-                        self.handler
-                            .handle_event(Event::Pushrod(event.clone()), &mut self.cache);
+                        self.handle_mouse_button(mouse_btn as u32, true);
                     }
 
                     sdl2::event::Event::MouseButtonUp { mouse_btn, .. } => {
-                        let event = PushrodEvent::MouseButton {
-                            widget_id: self.current_widget_id,
-                            button: mouse_btn as u32,
-                            state: false,
-                        };
-
-                        self.handler
-                            .handle_event(Event::Pushrod(event.clone()), &mut self.cache);
+                        self.handle_mouse_button(mouse_btn as u32, false);
                     }
 
                     unhandled_event => eprintln!("Event: {:?}", unhandled_event),
