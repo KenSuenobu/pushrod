@@ -20,19 +20,20 @@ use pushrod::engine::{Engine, EventHandler};
 use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
-use pushrod_widgets::properties::{
-    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_MAIN_COLOR,
-};
+use pushrod_widgets::properties::{PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_MAIN_COLOR, PROPERTY_FONT_SIZE, PROPERTY_FONT_NAME, PROPERTY_TEXT};
 use pushrod_widgets::system_widgets::base_widget::BaseWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
+use pushrod_widgets::system_widgets::text_widget::TextWidget;
 
 /// This const is used to store the original color of the `Widget` so that when the mouse leaves
 /// the scope of the `Widget`, its main color is restored.
 pub const PROPERTY_ORIGINAL_COLOR: u32 = 10000;
 
 #[derive(Default)]
-pub struct PushrodExample {}
+pub struct PushrodExample {
+    text_id: u32,
+}
 
 impl EventHandler for PushrodExample {
     fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) {
@@ -58,16 +59,28 @@ impl EventHandler for PushrodExample {
                 PushrodEvent::WidgetRadioSelected { .. } => {}
                 PushrodEvent::WidgetRadioUnselected { .. } => {}
                 PushrodEvent::WidgetMouseEntered { widget_id } => {
+                    if widget_id != self.text_id {
+                        cache
+                            .get(widget_id)
+                            .borrow_mut()
+                            .properties()
+                            .set_value(PROPERTY_BORDER_WIDTH, 5);
+                        cache
+                            .get(widget_id)
+                            .borrow_mut()
+                            .properties()
+                            .set_color(PROPERTY_MAIN_COLOR, Color::GREY);
+                    }
+
                     cache
-                        .get(widget_id)
+                        .get(self.text_id)
                         .borrow_mut()
                         .properties()
-                        .set_value(PROPERTY_BORDER_WIDTH, 5);
+                        .set(PROPERTY_TEXT, format!("Current Widget ID: {}", widget_id));
                     cache
-                        .get(widget_id)
+                        .get(self.text_id)
                         .borrow_mut()
-                        .properties()
-                        .set_color(PROPERTY_MAIN_COLOR, Color::GREY);
+                        .invalidate();
                 }
                 PushrodEvent::WidgetMouseExited { widget_id } => {
                     let original_color = cache
@@ -167,6 +180,18 @@ impl EventHandler for PushrodExample {
             .set_color(PROPERTY_ORIGINAL_COLOR, Color::YELLOW);
 
         cache.add(Box::new(box4), String::from("box4"), box1_id);
+
+        let mut text1 = TextWidget::default();
+
+        &text1
+            .properties()
+            .set_origin(16, 16)
+            .set_bounds(500, 24)
+            .set(PROPERTY_FONT_NAME, String::from("assets/OpenSans-Regular.ttf"))
+            .set_value(PROPERTY_FONT_SIZE, 16)
+            .set(PROPERTY_TEXT, String::from("Current Widget ID: 0"));
+
+        self.text_id = cache.add(Box::new(text1), String::from("text1"), 0);
     }
 }
 
