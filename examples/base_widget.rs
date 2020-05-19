@@ -20,11 +20,11 @@ use pushrod::engine::{Engine, EventHandler};
 use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
-use pushrod_widgets::properties::{PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_MAIN_COLOR, PROPERTY_FONT_SIZE, PROPERTY_FONT_NAME, PROPERTY_TEXT};
+use pushrod_widgets::properties::{PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_MAIN_COLOR, PROPERTY_TEXT, PROPERTY_FONT_STYLE};
 use pushrod_widgets::system_widgets::base_widget::BaseWidget;
+use pushrod_widgets::system_widgets::text_widget::TextWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::system_widgets::text_widget::TextWidget;
 
 /// This const is used to store the original color of the `Widget` so that when the mouse leaves
 /// the scope of the `Widget`, its main color is restored.
@@ -77,10 +77,7 @@ impl EventHandler for PushrodExample {
                         .borrow_mut()
                         .properties()
                         .set(PROPERTY_TEXT, format!("Current Widget ID: {}", widget_id));
-                    cache
-                        .get(self.text_id)
-                        .borrow_mut()
-                        .invalidate();
+                    cache.get(self.text_id).borrow_mut().invalidate();
                 }
                 PushrodEvent::WidgetMouseExited { widget_id } => {
                     let original_color = cache
@@ -185,10 +182,14 @@ impl EventHandler for PushrodExample {
 
         &text1
             .properties()
-            .set_origin(16, 16)
-            .set_bounds(500, 24)
-            .set(PROPERTY_FONT_NAME, String::from("assets/OpenSans-Regular.ttf"))
-            .set_value(PROPERTY_FONT_SIZE, 16)
+            .set_origin(10, 10)
+            .set_bounds(500, 26)
+            .set(
+                PROPERTY_FONT_NAME,
+                String::from("assets/OpenSans-Regular.ttf"),
+            )
+            .set_value(PROPERTY_FONT_SIZE, 18)
+            .set_value(PROPERTY_FONT_STYLE, 0)
             .set(PROPERTY_TEXT, String::from("Current Widget ID: 0"));
 
         self.text_id = cache.add(Box::new(text1), String::from("text1"), 0);
