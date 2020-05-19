@@ -107,15 +107,23 @@ impl Engine {
             .borrow_mut()
             .properties()
             .get_origin();
+        let event = PushrodEvent::MouseMoved {
+            widget_id: self.current_widget_id,
+            x: (x - points.0),
+            y: (y - points.1),
+        };
 
         self.handler.handle_event(
-            Event::Pushrod(PushrodEvent::MouseMoved {
-                widget_id: self.current_widget_id,
-                x: (x - points.0),
-                y: (y - points.1),
-            }),
+            Event::Pushrod(event.clone()),
             &mut self.cache,
         );
+
+        let handled_event = self.cache.get(self.current_widget_id).borrow_mut().handle_event(event);
+
+        match handled_event {
+            Some(x) => self.handler.handle_event(Event::Pushrod(x), &mut self.cache,),
+            None => {},
+        }
     }
 
     /// This is the main event handler for the application.  It handles all of the events generated
@@ -149,7 +157,7 @@ impl Engine {
                     sdl2::event::Event::Quit { .. } => break 'running,
 
                     sdl2::event::Event::MouseMotion { x, y, .. } => {
-                        self.handle_mouse_move(x as u32, y as u32)
+                        self.handle_mouse_move(x as u32, y as u32);
                     }
 
                     sdl2::event::Event::MouseButtonDown { mouse_btn, .. } => {
