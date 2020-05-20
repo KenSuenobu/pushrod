@@ -189,7 +189,7 @@ impl EventHandler for PushrodExample {
                 String::from("assets/OpenSans-Regular.ttf"),
             )
             .set_value(PROPERTY_FONT_SIZE, 18)
-            .set_value(PROPERTY_FONT_STYLE, 0)
+            .set_value(PROPERTY_FONT_STYLE, sdl2::ttf::FontStyle::NORMAL.bits())
             .set(PROPERTY_TEXT, String::from("Current Widget ID: 0"));
 
         self.text_id = cache.add(Box::new(text1), String::from("text1"), 0);
