@@ -33,11 +33,16 @@ pub trait EventHandler {
     /// Any events that could not be translated by `Pushrod` are either swallowed, or handled
     /// directly by the `run` method.  The cache is also provide as a way to get access to any
     /// `Widget`s in the list that need to be modified as the result of acting upon an `Event`.
-    fn handle_event(&mut self, event: Event, cache: &mut WidgetCache);
+    ///
+    /// If this method is not implemented, it does not have any effect on the main application.
+    fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) { }
 
     /// This callback is used when the screen needs to be built for the first time.  It is called
     /// by the `Engine`'s `run` method before the event loop starts.  The `cache` is sent such that
     /// `Widget`s can be added to the display list by using the `WidgetCache`'s functions.
+    ///
+    /// This function **must** be implemented, as it creates a layout for the application `Window`
+    /// upon creation.
     fn build_layout(&mut self, cache: &mut WidgetCache);
 }
 

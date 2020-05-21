@@ -111,8 +111,6 @@ impl EventHandler for PushrodExample {
     }
 
     fn build_layout(&mut self, cache: &mut WidgetCache) {
-        eprintln!("Layout called.");
-
         let mut base_widget = BaseWidget::default();
 
         &base_widget
