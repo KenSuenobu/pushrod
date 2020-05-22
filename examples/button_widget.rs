@@ -1,5 +1,5 @@
 // Pushrod
-// Progress Widget Example
+// Button Widget Example
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,12 +21,11 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{
-    PROPERTY_MAIN_COLOR, PROPERTY_PROGRESS, PROPERTY_PROGRESS_COLOR,
-};
+use pushrod_widgets::properties::{PROPERTY_MAIN_COLOR, PROPERTY_PROGRESS, PROPERTY_PROGRESS_COLOR, PROPERTY_TEXT, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER};
 use pushrod_widgets::system_widgets::progress_widget::ProgressWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
+use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {}
@@ -45,53 +44,25 @@ impl EventHandler for PushrodExample {
     }
 
     fn build_layout(&mut self, cache: &mut WidgetCache) {
-        let mut progress1 = ProgressWidget::default();
+        let mut button1 = ButtonWidget::default();
 
-        &progress1
+        &button1
             .properties()
             .set_origin(20, 20)
-            .set_bounds(360, 40)
+            .set_bounds(360, 60)
             .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
-            .set_color(PROPERTY_PROGRESS_COLOR, Color::RED)
-            .set_value(PROPERTY_PROGRESS, 25);
+            .set(
+                PROPERTY_FONT_NAME,
+                String::from("assets/OpenSans-Regular.ttf"),
+            )
+            .set_value(PROPERTY_FONT_SIZE, 18)
+            .set_value(PROPERTY_FONT_STYLE, sdl2::ttf::FontStyle::NORMAL.bits())
+            .set_value(PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER)
+            .set_value(PROPERTY_BORDER_WIDTH, 2)
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
+            .set(PROPERTY_TEXT, String::from("Click Me!"));
 
-        cache.add(Box::new(progress1), String::from("progress1"), 0);
-
-        let mut progress2 = ProgressWidget::default();
-
-        &progress2
-            .properties()
-            .set_origin(20, 70)
-            .set_bounds(360, 40)
-            .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
-            .set_color(PROPERTY_PROGRESS_COLOR, Color::GREEN)
-            .set_value(PROPERTY_PROGRESS, 50);
-
-        cache.add(Box::new(progress2), String::from("progress2"), 0);
-
-        let mut progress3 = ProgressWidget::default();
-
-        &progress3
-            .properties()
-            .set_origin(20, 120)
-            .set_bounds(360, 40)
-            .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
-            .set_color(PROPERTY_PROGRESS_COLOR, Color::BLUE)
-            .set_value(PROPERTY_PROGRESS, 75);
-
-        cache.add(Box::new(progress3), String::from("progress3"), 0);
-
-        let mut progress4 = ProgressWidget::default();
-
-        &progress4
-            .properties()
-            .set_origin(20, 170)
-            .set_bounds(360, 40)
-            .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
-            .set_color(PROPERTY_PROGRESS_COLOR, Color::CYAN)
-            .set_value(PROPERTY_PROGRESS, 100);
-
-        cache.add(Box::new(progress4), String::from("progress4"), 0);
+        cache.add(Box::new(button1), String::from("button1"), 0);
     }
 }
 

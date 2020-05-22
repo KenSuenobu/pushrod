@@ -32,10 +32,6 @@ use pushrod_widgets::system_widgets::image_widget::{
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
 
-/// This const is used to store the original color of the `Widget` so that when the mouse leaves
-/// the scope of the `Widget`, its main color is restored.
-pub const PROPERTY_ORIGINAL_COLOR: u32 = 10000;
-
 #[derive(Default)]
 pub struct PushrodExample {}
 
