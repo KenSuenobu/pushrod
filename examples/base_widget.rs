@@ -75,19 +75,21 @@ impl EventHandler for PushrodExample {
                     cache.get(self.text_id).invalidate();
                 }
                 PushrodEvent::WidgetMouseExited { widget_id } => {
-                    let original_color = cache
-                        .get(widget_id)
-                        .properties()
-                        .get_color(PROPERTY_ORIGINAL_COLOR, Color::WHITE);
+                    if widget_id != self.text_id {
+                        let original_color = cache
+                            .get(widget_id)
+                            .properties()
+                            .get_color(PROPERTY_ORIGINAL_COLOR, Color::WHITE);
 
-                    cache
-                        .get(widget_id)
-                        .properties()
-                        .set_value(PROPERTY_BORDER_WIDTH, 1);
-                    cache
-                        .get(widget_id)
-                        .properties()
-                        .set_color(PROPERTY_MAIN_COLOR, original_color);
+                        cache
+                            .get(widget_id)
+                            .properties()
+                            .set_value(PROPERTY_BORDER_WIDTH, 1);
+                        cache
+                            .get(widget_id)
+                            .properties()
+                            .set_color(PROPERTY_MAIN_COLOR, original_color);
+                    }
                 }
                 PushrodEvent::DrawFrame { .. } => {}
                 x => eprintln!("Pushrod unhandled event: {:?}", x),
