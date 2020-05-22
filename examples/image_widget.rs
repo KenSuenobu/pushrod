@@ -34,9 +34,7 @@ use pushrod_widgets::event::{Event, PushrodEvent};
 pub const PROPERTY_ORIGINAL_COLOR: u32 = 10000;
 
 #[derive(Default)]
-pub struct PushrodExample {
-    text_id: u32,
-}
+pub struct PushrodExample { }
 
 impl EventHandler for PushrodExample {
     fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) {
@@ -62,8 +60,8 @@ impl EventHandler for PushrodExample {
                         .properties()
                         .set_color(PROPERTY_BORDER_COLOR, Color::BLUE);
                 }
-                PushrodEvent::DrawFrame { timestamp } => { },
-                x=> {  },
+                PushrodEvent::DrawFrame { .. } => { },
+                _=> { },
             },
             Event::SDL2(x) => {
                 eprintln!("SDL2 unhandled event: {:?}", x);
@@ -258,7 +256,7 @@ impl EventHandler for PushrodExample {
 }
 
 pub fn main() {
-    let (sdl_context, video_subsystem, window) = init_application("pushrod example", 500, 270);
+    let (sdl_context, _, window) = init_application("pushrod example", 500, 270);
     let mut engine = Engine::new(Box::new(PushrodExample::default()), &window);
 
     engine.run(sdl_context, window);

@@ -89,7 +89,7 @@ impl EventHandler for PushrodExample {
                         .properties()
                         .set_color(PROPERTY_MAIN_COLOR, original_color);
                 }
-                PushrodEvent::DrawFrame { timestamp } => { },
+                PushrodEvent::DrawFrame { .. } => { },
                 x=> eprintln!("Pushrod unhandled event: {:?}", x),
             },
             Event::SDL2(x) => {
@@ -184,7 +184,7 @@ impl EventHandler for PushrodExample {
 }
 
 pub fn main() {
-    let (sdl_context, video_subsystem, window) = init_application("pushrod example", 640, 480);
+    let (sdl_context, _, window) = init_application("pushrod example", 640, 480);
     let mut engine = Engine::new(Box::new(PushrodExample::default()), &window);
 
     engine.run(sdl_context, window);
