@@ -20,6 +20,7 @@ use pushrod::engine::{Engine, EventHandler};
 use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
+use pushrod_widgets::primitives::init_application;
 use pushrod_widgets::properties::{
     PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE,
     PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR, PROPERTY_TEXT,
@@ -28,7 +29,6 @@ use pushrod_widgets::system_widgets::base_widget::BaseWidget;
 use pushrod_widgets::system_widgets::text_widget::TextWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::primitives::init_application;
 
 /// This const is used to store the original color of the `Widget` so that when the mouse leaves
 /// the scope of the `Widget`, its main color is restored.
@@ -89,8 +89,8 @@ impl EventHandler for PushrodExample {
                         .properties()
                         .set_color(PROPERTY_MAIN_COLOR, original_color);
                 }
-                PushrodEvent::DrawFrame { .. } => { },
-                x=> eprintln!("Pushrod unhandled event: {:?}", x),
+                PushrodEvent::DrawFrame { .. } => {}
+                x => eprintln!("Pushrod unhandled event: {:?}", x),
             },
             Event::SDL2(x) => {
                 eprintln!("SDL2 unhandled event: {:?}", x);

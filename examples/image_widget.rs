@@ -18,23 +18,26 @@ extern crate sdl2;
 
 use pushrod::engine::{Engine, EventHandler};
 use pushrod_widgets::caches::WidgetCache;
-use pushrod_widgets::properties::{PROPERTY_IMAGE_FILENAME, PROPERTY_IMAGE_POSITION, PROPERTY_IMAGE_SCALED, PROPERTY_MAIN_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_BORDER_COLOR};
+use pushrod_widgets::event::Event::Pushrod;
+use pushrod_widgets::event::{Event, PushrodEvent};
+use pushrod_widgets::primitives::init_application;
+use pushrod_widgets::properties::{
+    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_IMAGE_FILENAME, PROPERTY_IMAGE_POSITION,
+    PROPERTY_IMAGE_SCALED, PROPERTY_MAIN_COLOR,
+};
 use pushrod_widgets::system_widgets::image_widget::{
     ImageWidget, COMPASS_CENTER, COMPASS_E, COMPASS_N, COMPASS_NE, COMPASS_NW, COMPASS_S,
     COMPASS_SE, COMPASS_SW, COMPASS_W,
 };
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::event::Event::Pushrod;
-use pushrod_widgets::event::{Event, PushrodEvent};
 
 /// This const is used to store the original color of the `Widget` so that when the mouse leaves
 /// the scope of the `Widget`, its main color is restored.
 pub const PROPERTY_ORIGINAL_COLOR: u32 = 10000;
 
 #[derive(Default)]
-pub struct PushrodExample { }
+pub struct PushrodExample {}
 
 impl EventHandler for PushrodExample {
     fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) {
@@ -60,8 +63,8 @@ impl EventHandler for PushrodExample {
                         .properties()
                         .set_color(PROPERTY_BORDER_COLOR, Color::BLUE);
                 }
-                PushrodEvent::DrawFrame { .. } => { },
-                _=> { },
+                PushrodEvent::DrawFrame { .. } => {}
+                _ => {}
             },
             Event::SDL2(x) => {
                 eprintln!("SDL2 unhandled event: {:?}", x);

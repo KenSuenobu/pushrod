@@ -17,10 +17,10 @@ use sdl2::video::Window;
 use sdl2::Sdl;
 
 use pushrod_widgets::caches::WidgetCache;
+use pushrod_widgets::event::PushrodEvent::DrawFrame;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
-use pushrod_widgets::event::PushrodEvent::DrawFrame;
 
 /// This is an event handler that is passed into a main event loop.  Since there can be multiple
 /// windows open at any one time, the event handler that is implemented using this `trait` should
@@ -85,14 +85,12 @@ impl Engine {
     /// Broadcasts a generated `PushrodEvent` to the current `Widget`, capturing the response, and
     /// forwarding it on to the application if an event was returned.
     fn send_event_to_widget(&mut self, event: PushrodEvent) {
-        let handled_event = self
-            .cache
-            .get(self.current_widget_id)
-            .handle_event(event);
+        let handled_event = self.cache.get(self.current_widget_id).handle_event(event);
 
-        if let Some(x) = handled_event { self
-            .handler
-            .handle_event(Event::Pushrod(x), &mut self.cache) }
+        if let Some(x) = handled_event {
+            self.handler
+                .handle_event(Event::Pushrod(x), &mut self.cache)
+        }
     }
 
     /// This function handles the `MouseMotion` event, converting it into an `Event` that can be
@@ -153,20 +151,20 @@ impl Engine {
 
     /// Handles a draw frame event.
     fn handle_draw_frame(&mut self, timestamp: u128) {
-        let event = DrawFrame { timestamp, };
+        let event = DrawFrame { timestamp };
 
         self.handler
-            .handle_event(Event::Pushrod(event.clone()),
-            &mut self.cache);
+            .handle_event(Event::Pushrod(event.clone()), &mut self.cache);
 
         let widget_count = self.cache.size();
 
         for i in 0..widget_count {
             let handled_event = self.cache.get(i).handle_event(event.clone());
 
-            if let Some(x) = handled_event { self
-                .handler
-                .handle_event(Event::Pushrod(x), &mut self.cache) }
+            if let Some(x) = handled_event {
+                self.handler
+                    .handle_event(Event::Pushrod(x), &mut self.cache)
+            }
         }
     }
 
