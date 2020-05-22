@@ -20,6 +20,7 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use pushrod_widgets::event::PushrodEvent::DrawFrame;
 
 /// This is an event handler that is passed into a main event loop.  Since there can be multiple
 /// windows open at any one time, the event handler that is implemented using this `trait` should
@@ -155,6 +156,28 @@ impl Engine {
         self.send_event_to_widget(event);
     }
 
+    /// Handles a draw frame event.
+    fn handle_draw_frame(&mut self, timestamp: u128) {
+        let event = DrawFrame { timestamp, };
+
+        self.handler
+            .handle_event(Event::Pushrod(event.clone()),
+            &mut self.cache);
+
+        let widget_count = self.cache.size();
+
+        for i in 0..widget_count {
+            let handled_event = self.cache.get(i).borrow_mut().handle_event(event.clone());
+
+            match handled_event {
+                Some(x) => self
+                    .handler
+                    .handle_event(Event::Pushrod(x), &mut self.cache),
+                None => {}
+            }
+        }
+    }
+
     /// This is the main event handler for the application.  It handles all of the events generated
     /// by the `SDL2` manager, and translates them into events that can be used by the `handle_event`
     /// method.
@@ -200,6 +223,10 @@ impl Engine {
                     unhandled_event => eprintln!("Event: {:?}", unhandled_event),
                 }
             }
+
+            let timestamp = SystemTime::now();
+
+            self.handle_draw_frame(timestamp.duration_since(UNIX_EPOCH).unwrap().as_millis());
 
             if self.cache.invalidated() {
                 // Draw after events are processed.
