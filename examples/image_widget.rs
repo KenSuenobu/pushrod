@@ -27,6 +27,7 @@ use pushrod_widgets::system_widgets::image_widget::{
 };
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
+use pushrod_widgets::primitives::init_application;
 
 /// This const is used to store the original color of the `Widget` so that when the mouse leaves
 /// the scope of the `Widget`, its main color is restored.
@@ -225,14 +226,7 @@ impl EventHandler for PushrodExample {
 }
 
 pub fn main() {
-    let sdl_context = sdl2::init().unwrap();
-    let video_subsystem = sdl_context.video().unwrap();
-    let window = video_subsystem
-        .window("pushrod example", 500, 270)
-        .position_centered()
-        .opengl()
-        .build()
-        .unwrap();
+    let (sdl_context, video_subsystem, window) = init_application("pushrod example", 500, 270);
     let mut engine = Engine::new(Box::new(PushrodExample::default()), &window);
 
     engine.run(sdl_context, window);

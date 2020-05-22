@@ -28,6 +28,7 @@ use pushrod_widgets::system_widgets::base_widget::BaseWidget;
 use pushrod_widgets::system_widgets::text_widget::TextWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
+use pushrod_widgets::primitives::init_application;
 
 /// This const is used to store the original color of the `Widget` so that when the mouse leaves
 /// the scope of the `Widget`, its main color is restored.
@@ -191,6 +192,7 @@ impl EventHandler for PushrodExample {
             )
             .set_value(PROPERTY_FONT_SIZE, 18)
             .set_value(PROPERTY_FONT_STYLE, sdl2::ttf::FontStyle::NORMAL.bits())
+            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(255, 255, 255, 0))
             .set(PROPERTY_TEXT, String::from("Current Widget ID: 0"));
 
         self.text_id = cache.add(Box::new(text1), String::from("text1"), 0);
@@ -198,14 +200,7 @@ impl EventHandler for PushrodExample {
 }
 
 pub fn main() {
-    let sdl_context = sdl2::init().unwrap();
-    let video_subsystem = sdl_context.video().unwrap();
-    let window = video_subsystem
-        .window("pushrod example", 640, 480)
-        .position_centered()
-        .opengl()
-        .build()
-        .unwrap();
+    let (sdl_context, video_subsystem, window) = init_application("pushrod example", 640, 480);
     let mut engine = Engine::new(Box::new(PushrodExample::default()), &window);
 
     engine.run(sdl_context, window);
