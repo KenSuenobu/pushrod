@@ -90,12 +90,9 @@ impl Engine {
             .get(self.current_widget_id)
             .handle_event(event);
 
-        match handled_event {
-            Some(x) => self
-                .handler
-                .handle_event(Event::Pushrod(x), &mut self.cache),
-            None => {}
-        }
+        if let Some(x) = handled_event { self
+            .handler
+            .handle_event(Event::Pushrod(x), &mut self.cache) }
     }
 
     /// This function handles the `MouseMotion` event, converting it into an `Event` that can be
@@ -167,12 +164,9 @@ impl Engine {
         for i in 0..widget_count {
             let handled_event = self.cache.get(i).handle_event(event.clone());
 
-            match handled_event {
-                Some(x) => self
-                    .handler
-                    .handle_event(Event::Pushrod(x), &mut self.cache),
-                None => {}
-            }
+            if let Some(x) = handled_event { self
+                .handler
+                .handle_event(Event::Pushrod(x), &mut self.cache) }
         }
     }
 
