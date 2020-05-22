@@ -16,12 +16,17 @@
 extern crate pushrod;
 extern crate sdl2;
 
-use sdl2::pixels::Color;
-use pushrod::engine::{EventHandler, Engine};
+use pushrod::engine::{Engine, EventHandler};
 use pushrod_widgets::caches::WidgetCache;
-use pushrod_widgets::properties::{PROPERTY_MAIN_COLOR, PROPERTY_IMAGE_POSITION, PROPERTY_IMAGE_FILENAME, PROPERTY_IMAGE_SCALED};
-use pushrod_widgets::system_widgets::image_widget::{COMPASS_NW, ImageWidget, COMPASS_N, COMPASS_NE, COMPASS_W, COMPASS_CENTER, COMPASS_E, COMPASS_SW, COMPASS_S, COMPASS_SE};
+use pushrod_widgets::properties::{
+    PROPERTY_IMAGE_FILENAME, PROPERTY_IMAGE_POSITION, PROPERTY_IMAGE_SCALED, PROPERTY_MAIN_COLOR,
+};
+use pushrod_widgets::system_widgets::image_widget::{
+    ImageWidget, COMPASS_CENTER, COMPASS_E, COMPASS_N, COMPASS_NE, COMPASS_NW, COMPASS_S,
+    COMPASS_SE, COMPASS_SW, COMPASS_W,
+};
 use pushrod_widgets::widget::Widget;
+use sdl2::pixels::Color;
 
 /// This const is used to store the original color of the `Widget` so that when the mouse leaves
 /// the scope of the `Widget`, its main color is restored.
@@ -42,7 +47,10 @@ impl EventHandler for PushrodExample {
             .set_bounds(60, 60)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_NW)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget1), String::from("widget1"), 0);
 
@@ -54,7 +62,10 @@ impl EventHandler for PushrodExample {
             .set_bounds(60, 60)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_N)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget2), String::from("widget2"), 0);
 
@@ -66,7 +77,10 @@ impl EventHandler for PushrodExample {
             .set_bounds(60, 60)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_NE)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget3), String::from("widget3"), 0);
 
@@ -78,7 +92,10 @@ impl EventHandler for PushrodExample {
             .set_bounds(60, 60)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_W)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget4), String::from("widget4"), 0);
 
@@ -90,7 +107,10 @@ impl EventHandler for PushrodExample {
             .set_bounds(60, 60)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_CENTER)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget5), String::from("widget5"), 0);
 
@@ -102,7 +122,10 @@ impl EventHandler for PushrodExample {
             .set_bounds(60, 60)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_E)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget6), String::from("widget6"), 0);
 
@@ -114,7 +137,10 @@ impl EventHandler for PushrodExample {
             .set_bounds(60, 60)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_SW)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget7), String::from("widget7"), 0);
 
@@ -126,7 +152,10 @@ impl EventHandler for PushrodExample {
             .set_bounds(60, 60)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_S)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget8), String::from("widget8"), 0);
 
@@ -138,7 +167,10 @@ impl EventHandler for PushrodExample {
             .set_bounds(60, 60)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_SE)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget9), String::from("widget9"), 0);
 
@@ -146,12 +178,15 @@ impl EventHandler for PushrodExample {
 
         &widget10
             .properties()
-            .set_origin(230,16)
+            .set_origin(230, 16)
             .set_bounds(80, 80)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_NW)
             .set_bool(PROPERTY_IMAGE_SCALED)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget10), String::from("widget10"), 0);
 
@@ -159,12 +194,15 @@ impl EventHandler for PushrodExample {
 
         &widget11
             .properties()
-            .set_origin(260,46)
+            .set_origin(260, 46)
             .set_bounds(120, 120)
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_NW)
             .set_bool(PROPERTY_IMAGE_SCALED)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget11), String::from("widget11"), 0);
 
@@ -177,7 +215,10 @@ impl EventHandler for PushrodExample {
             .set_color(PROPERTY_MAIN_COLOR, Color::BLACK)
             .set_value(PROPERTY_IMAGE_POSITION, COMPASS_NW)
             .set_bool(PROPERTY_IMAGE_SCALED)
-            .set(PROPERTY_IMAGE_FILENAME, String::from("assets/rust-48x48.jpg"));
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            );
 
         cache.add(Box::new(widget12), String::from("widget12"), 0);
     }

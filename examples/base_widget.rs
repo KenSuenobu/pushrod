@@ -20,7 +20,10 @@ use pushrod::engine::{Engine, EventHandler};
 use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
-use pushrod_widgets::properties::{PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_MAIN_COLOR, PROPERTY_TEXT, PROPERTY_FONT_STYLE};
+use pushrod_widgets::properties::{
+    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE,
+    PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR, PROPERTY_TEXT,
+};
 use pushrod_widgets::system_widgets::base_widget::BaseWidget;
 use pushrod_widgets::system_widgets::text_widget::TextWidget;
 use pushrod_widgets::widget::Widget;
