@@ -21,10 +21,12 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{PROPERTY_PROGRESS_COLOR, PROPERTY_PROGRESS, PROPERTY_MAIN_COLOR};
+use pushrod_widgets::properties::{
+    PROPERTY_MAIN_COLOR, PROPERTY_PROGRESS, PROPERTY_PROGRESS_COLOR,
+};
+use pushrod_widgets::system_widgets::progress_widget::ProgressWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::system_widgets::progress_widget::ProgressWidget;
 
 /// This const is used to store the original color of the `Widget` so that when the mouse leaves
 /// the scope of the `Widget`, its main color is restored.
@@ -37,7 +39,7 @@ impl EventHandler for PushrodExample {
     fn handle_event(&mut self, event: Event, _cache: &mut WidgetCache) {
         match event {
             Pushrod(pushrod_event) => match pushrod_event {
-                PushrodEvent::DrawFrame { .. } => {},
+                PushrodEvent::DrawFrame { .. } => {}
                 x => eprintln!("Pushrod unhandled event: {:?}", x),
             },
             Event::SDL2(x) => {
