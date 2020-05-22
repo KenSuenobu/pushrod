@@ -18,9 +18,7 @@ extern crate sdl2;
 
 use pushrod::engine::{Engine, EventHandler};
 use pushrod_widgets::caches::WidgetCache;
-use pushrod_widgets::properties::{
-    PROPERTY_IMAGE_FILENAME, PROPERTY_IMAGE_POSITION, PROPERTY_IMAGE_SCALED, PROPERTY_MAIN_COLOR,
-};
+use pushrod_widgets::properties::{PROPERTY_IMAGE_FILENAME, PROPERTY_IMAGE_POSITION, PROPERTY_IMAGE_SCALED, PROPERTY_MAIN_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_BORDER_COLOR};
 use pushrod_widgets::system_widgets::image_widget::{
     ImageWidget, COMPASS_CENTER, COMPASS_E, COMPASS_N, COMPASS_NE, COMPASS_NW, COMPASS_S,
     COMPASS_SE, COMPASS_SW, COMPASS_W,
@@ -28,6 +26,8 @@ use pushrod_widgets::system_widgets::image_widget::{
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
 use pushrod_widgets::primitives::init_application;
+use pushrod_widgets::event::Event::Pushrod;
+use pushrod_widgets::event::{Event, PushrodEvent};
 
 /// This const is used to store the original color of the `Widget` so that when the mouse leaves
 /// the scope of the `Widget`, its main color is restored.
@@ -39,6 +39,42 @@ pub struct PushrodExample {
 }
 
 impl EventHandler for PushrodExample {
+    fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) {
+        match event {
+            Pushrod(pushrod_event) => match pushrod_event {
+                PushrodEvent::WidgetMouseEntered { widget_id } => {
+                    cache
+                        .get(widget_id)
+                        .borrow_mut()
+                        .properties()
+                        .set_value(PROPERTY_BORDER_WIDTH, 1);
+                    cache
+                        .get(widget_id)
+                        .borrow_mut()
+                        .properties()
+                        .set_color(PROPERTY_BORDER_COLOR, Color::BLUE);
+                }
+                PushrodEvent::WidgetMouseExited { widget_id } => {
+                    cache
+                        .get(widget_id)
+                        .borrow_mut()
+                        .properties()
+                        .set_value(PROPERTY_BORDER_WIDTH, 0);
+                    cache
+                        .get(widget_id)
+                        .borrow_mut()
+                        .properties()
+                        .set_color(PROPERTY_BORDER_COLOR, Color::BLUE);
+                }
+                PushrodEvent::DrawFrame { timestamp } => { },
+                x=> {  },
+            },
+            Event::SDL2(x) => {
+                eprintln!("SDL2 unhandled event: {:?}", x);
+            }
+        }
+    }
+
     fn build_layout(&mut self, cache: &mut WidgetCache) {
         let mut widget1 = ImageWidget::default();
 

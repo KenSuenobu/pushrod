@@ -46,7 +46,6 @@ impl EventHandler for PushrodExample {
                 PushrodEvent::MouseMoved { widget_id, x, y } => {
                     eprintln!("Mouse moved: widget={} x={} y={}", widget_id, x, y);
                 }
-                PushrodEvent::MouseScrolled { .. } => {}
                 PushrodEvent::MouseButton {
                     widget_id,
                     button,
@@ -57,11 +56,6 @@ impl EventHandler for PushrodExample {
                         widget_id, button, state
                     );
                 }
-                PushrodEvent::WidgetClicked { .. } => {}
-                PushrodEvent::WidgetSelected { .. } => {}
-                PushrodEvent::WidgetToggled { .. } => {}
-                PushrodEvent::WidgetRadioSelected { .. } => {}
-                PushrodEvent::WidgetRadioUnselected { .. } => {}
                 PushrodEvent::WidgetMouseEntered { widget_id } => {
                     if widget_id != self.text_id {
                         cache
@@ -101,12 +95,8 @@ impl EventHandler for PushrodExample {
                         .properties()
                         .set_color(PROPERTY_MAIN_COLOR, original_color);
                 }
-                PushrodEvent::WidgetFocusGained { .. } => {}
-                PushrodEvent::WidgetFocusLost { .. } => {}
-                PushrodEvent::WidgetTabSelected { .. } => {}
-                PushrodEvent::WidgetValueChanged { .. } => {}
-                PushrodEvent::WidgetMoved { .. } => {}
-                PushrodEvent::WidgetVisibilityChanged { .. } => {}
+                PushrodEvent::DrawFrame { timestamp } => { },
+                x=> eprintln!("Pushrod unhandled event: {:?}", x),
             },
             Event::SDL2(x) => {
                 eprintln!("SDL2 unhandled event: {:?}", x);
