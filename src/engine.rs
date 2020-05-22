@@ -88,7 +88,6 @@ impl Engine {
         let handled_event = self
             .cache
             .get(self.current_widget_id)
-            .borrow_mut()
             .handle_event(event);
 
         match handled_event {
@@ -127,7 +126,6 @@ impl Engine {
         let points = self
             .cache
             .get(self.current_widget_id)
-            .borrow_mut()
             .properties()
             .get_origin();
         let event = PushrodEvent::MouseMoved {
@@ -167,7 +165,7 @@ impl Engine {
         let widget_count = self.cache.size();
 
         for i in 0..widget_count {
-            let handled_event = self.cache.get(i).borrow_mut().handle_event(event.clone());
+            let handled_event = self.cache.get(i).handle_event(event.clone());
 
             match handled_event {
                 Some(x) => self

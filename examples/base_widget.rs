@@ -60,38 +60,32 @@ impl EventHandler for PushrodExample {
                     if widget_id != self.text_id {
                         cache
                             .get(widget_id)
-                            .borrow_mut()
                             .properties()
                             .set_value(PROPERTY_BORDER_WIDTH, 5);
                         cache
                             .get(widget_id)
-                            .borrow_mut()
                             .properties()
                             .set_color(PROPERTY_MAIN_COLOR, Color::GREY);
                     }
 
                     cache
                         .get(self.text_id)
-                        .borrow_mut()
                         .properties()
                         .set(PROPERTY_TEXT, format!("Current Widget ID: {}", widget_id));
-                    cache.get(self.text_id).borrow_mut().invalidate();
+                    cache.get(self.text_id).invalidate();
                 }
                 PushrodEvent::WidgetMouseExited { widget_id } => {
                     let original_color = cache
                         .get(widget_id)
-                        .borrow_mut()
                         .properties()
                         .get_color(PROPERTY_ORIGINAL_COLOR, Color::WHITE);
 
                     cache
                         .get(widget_id)
-                        .borrow_mut()
                         .properties()
                         .set_value(PROPERTY_BORDER_WIDTH, 1);
                     cache
                         .get(widget_id)
-                        .borrow_mut()
                         .properties()
                         .set_color(PROPERTY_MAIN_COLOR, original_color);
                 }

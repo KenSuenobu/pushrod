@@ -45,24 +45,20 @@ impl EventHandler for PushrodExample {
                 PushrodEvent::WidgetMouseEntered { widget_id } => {
                     cache
                         .get(widget_id)
-                        .borrow_mut()
                         .properties()
                         .set_value(PROPERTY_BORDER_WIDTH, 1);
                     cache
                         .get(widget_id)
-                        .borrow_mut()
                         .properties()
                         .set_color(PROPERTY_BORDER_COLOR, Color::BLUE);
                 }
                 PushrodEvent::WidgetMouseExited { widget_id } => {
                     cache
                         .get(widget_id)
-                        .borrow_mut()
                         .properties()
                         .set_value(PROPERTY_BORDER_WIDTH, 0);
                     cache
                         .get(widget_id)
-                        .borrow_mut()
                         .properties()
                         .set_color(PROPERTY_BORDER_COLOR, Color::BLUE);
                 }
