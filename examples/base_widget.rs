@@ -43,9 +43,7 @@ impl EventHandler for PushrodExample {
     fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) {
         match event {
             Pushrod(pushrod_event) => match pushrod_event {
-                PushrodEvent::MouseMoved { widget_id, x, y } => {
-                    eprintln!("Mouse moved: widget={} x={} y={}", widget_id, x, y);
-                }
+                PushrodEvent::MouseMoved { .. } => {}
                 PushrodEvent::MouseButton {
                     widget_id,
                     button,

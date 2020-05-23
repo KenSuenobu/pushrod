@@ -214,9 +214,13 @@ impl Engine {
                 }
             }
 
-            let timestamp = SystemTime::now();
-
-            self.handle_draw_frame(timestamp.duration_since(UNIX_EPOCH).unwrap().as_millis());
+            // Tick event
+            self.handle_draw_frame(
+                SystemTime::now()
+                    .duration_since(UNIX_EPOCH)
+                    .unwrap()
+                    .as_millis(),
+            );
 
             if self.cache.invalidated() {
                 // Draw after events are processed.
