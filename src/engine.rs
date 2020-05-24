@@ -84,12 +84,26 @@ impl Engine {
 
     /// Broadcasts a generated `PushrodEvent` to the current `Widget`, capturing the response, and
     /// forwarding it on to the application if an event was returned.
-    fn send_event_to_widget(&mut self, event: PushrodEvent) {
-        let handled_event = self.cache.get(self.current_widget_id).handle_event(event);
+    fn send_event_to_widget(&mut self, widget_id: u32, event: PushrodEvent) {
+        let handled_event = self.cache.get(widget_id).handle_event(event);
 
         if let Some(x) = handled_event {
             self.handler
                 .handle_event(Event::Pushrod(x), &mut self.cache)
+        }
+    }
+
+    /// Sends an event to all `Widget`s.
+    fn send_event_to_all(&mut self, event: PushrodEvent) {
+        let cache_size = self.cache.size();
+
+        for i in 0..cache_size {
+            let handled_event = self.cache.get(i).handle_event(event.clone());
+
+            if let Some(x) = handled_event {
+                self.handler
+                    .handle_event(Event::Pushrod(x), &mut self.cache)
+            }
         }
     }
 
@@ -103,19 +117,27 @@ impl Engine {
         self.current_widget_id = self.cache.id_at_point(x as u32, y as u32);
 
         if cur_widget_id != self.current_widget_id {
+            let exited_event = PushrodEvent::WidgetMouseExited {
+                widget_id: cur_widget_id,
+            };
+
             self.handler.handle_event(
-                Event::Pushrod(PushrodEvent::WidgetMouseExited {
-                    widget_id: cur_widget_id,
-                }),
+                Event::Pushrod(exited_event.clone()),
                 &mut self.cache,
             );
 
+            self.send_event_to_widget(cur_widget_id, exited_event);
+
+            let entered_event = PushrodEvent::WidgetMouseEntered {
+                widget_id: self.current_widget_id,
+            };
+
             self.handler.handle_event(
-                Event::Pushrod(PushrodEvent::WidgetMouseEntered {
-                    widget_id: self.current_widget_id,
-                }),
+                Event::Pushrod(entered_event.clone()),
                 &mut self.cache,
             );
+
+            self.send_event_to_widget(self.current_widget_id, entered_event);
         }
 
         let points = self
@@ -132,7 +154,7 @@ impl Engine {
         self.handler
             .handle_event(Event::Pushrod(event.clone()), &mut self.cache);
 
-        self.send_event_to_widget(event);
+        self.send_event_to_widget(self.current_widget_id, event);
     }
 
     /// Handles a `MouseButton` event, which indicates that a mouse button has been pressed or released.
@@ -146,7 +168,11 @@ impl Engine {
         self.handler
             .handle_event(Event::Pushrod(event.clone()), &mut self.cache);
 
-        self.send_event_to_widget(event);
+        if !state {
+            self.send_event_to_all(event);
+        } else {
+            self.send_event_to_widget(self.current_widget_id, event);
+        }
     }
 
     /// Handles a draw frame event.
