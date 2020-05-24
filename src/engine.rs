@@ -121,10 +121,8 @@ impl Engine {
                 widget_id: cur_widget_id,
             };
 
-            self.handler.handle_event(
-                Event::Pushrod(exited_event.clone()),
-                &mut self.cache,
-            );
+            self.handler
+                .handle_event(Event::Pushrod(exited_event.clone()), &mut self.cache);
 
             self.send_event_to_widget(cur_widget_id, exited_event);
 
@@ -132,10 +130,8 @@ impl Engine {
                 widget_id: self.current_widget_id,
             };
 
-            self.handler.handle_event(
-                Event::Pushrod(entered_event.clone()),
-                &mut self.cache,
-            );
+            self.handler
+                .handle_event(Event::Pushrod(entered_event.clone()), &mut self.cache);
 
             self.send_event_to_widget(self.current_widget_id, entered_event);
         }
