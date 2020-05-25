@@ -8,3 +8,9 @@ Pushrod is a UI library written in Rust from the ground up.  It utilizes the
 [Rust SDL2 Library](https://github.com/Rust-SDL2/rust-sdl2) crate for handling system
 events and GPU-based drawing.
 
+This library consists of two parts:
+
+- [Pushrod](https://www.github.com/KenSuenobu/pushrod/) main library, containing the controller
+- [Pushrod-Widgets](https://www.github.com/KenSuenobu/pushrod-widgets/) widgets library, containing the master widgets
+
+
