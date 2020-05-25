@@ -19,10 +19,13 @@ extern crate sdl2;
 use pushrod::engine::{Engine, EventHandler};
 use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{PROPERTY_BORDER_WIDTH, PROPERTY_BORDER_COLOR, PROPERTY_MAIN_COLOR, PROPERTY_GRID_COLOR, PROPERTY_GRID_SPACING, PROPERTY_GRID_CONNECTED};
+use pushrod_widgets::properties::{
+    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_GRID_COLOR, PROPERTY_GRID_CONNECTED,
+    PROPERTY_GRID_SPACING, PROPERTY_MAIN_COLOR,
+};
+use pushrod_widgets::system_widgets::grid_widget::GridWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::system_widgets::grid_widget::GridWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {}
