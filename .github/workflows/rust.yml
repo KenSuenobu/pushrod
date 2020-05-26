@@ -41,7 +41,7 @@ jobs:
         export PATH="$PATH/.cargo/bin:$PATH"
         cargo build --all
 
-  windows:
+  Windows:
     runs-on: windows-2016
     steps:
     - name: Checkout root project
