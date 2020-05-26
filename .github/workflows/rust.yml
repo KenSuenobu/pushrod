@@ -9,6 +9,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: install_dependencies
       run: |
+        git clone git@github.com:KenSuenobu/pushrod-widgets.git
         sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu `lsb_release -sc` main universe restricted multiverse"
         sudo apt-get update -y -qq
         sudo apt-get install libsdl2-dev
@@ -23,10 +24,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: install_dependencies
       run: |
-        brew update
-        brew upgrade
+        git clone git@github.com:KenSuenobu/pushrod-widgets.git
         brew install ruby sdl2 sdl2_image sdl2_ttf rustup
-        brew install rustup
         rustup-init -y --default-toolchain stable
     - name: Build
       run: |
