@@ -3,28 +3,31 @@ name: Rust
 on: [push]
 
 jobs:
-  ubuntu:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: install_dependencies
-      run: |
-        git clone git@github.com:KenSuenobu/pushrod-widgets.git
-        sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu `lsb_release -sc` main universe restricted multiverse"
-        sudo apt-get update -y -qq
-        sudo apt-get install libsdl2-dev
-    - name: Build
-      run: |
-        rustc --version
-        cargo build
+#  ubuntu:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v1
+#    - name: install_dependencies
+#      run: |
+#        sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu `lsb_release -sc` main universe restricted multiverse"
+#        sudo apt-get update -y -qq
+#        sudo apt-get install libsdl2-dev
+#    - name: Build
+#      run: |
+#        rustc --version
+#        cargo build
 
   macos:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        repository: KenSuenobu/pushrod-widgets
+        path: pushrod-widgets
     - name: install_dependencies
       run: |
-        git clone git@github.com:KenSuenobu/pushrod-widgets.git
         brew install ruby sdl2 sdl2_image sdl2_ttf rustup
         rustup-init -y --default-toolchain stable
     - name: Build
@@ -32,10 +35,10 @@ jobs:
         export PATH="$PATH/.cargo/bin:$PATH"
         cargo build
 
-  windows:
-    runs-on: windows-2016
-    steps:
-    - uses: actions/checkout@v1
-    - name: Build
-      run: cargo build
+#  windows:
+#    runs-on: windows-2016
+#    steps:
+#    - uses: actions/checkout@v1
+#    - name: Build
+#      run: cargo build
 
