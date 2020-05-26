@@ -1,5 +1,6 @@
 "grid1": {
     "parent": "root",
+    "class": "GridWidget",
     "properties": {
         "4": "20 20",
         "5": "280 440",
@@ -14,6 +15,7 @@
 
 "grid2": {
     "parent": "root",
+    "class": "GridWidget",
     "properties": {
         "4": "320 20",
         "5": "280 440",
