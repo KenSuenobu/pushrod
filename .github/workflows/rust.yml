@@ -20,20 +20,21 @@ jobs:
   macos:
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Checkout
+    - name: Checkout root project
+      uses: actions/checkout@v1
+    - name: Checkout widgets
       uses: actions/checkout@v2
       with:
         repository: KenSuenobu/pushrod-widgets
         path: pushrod-widgets
-    - name: install_dependencies
+    - name: Install Brew dependencies
       run: |
         brew install ruby sdl2 sdl2_image sdl2_ttf rustup
         rustup-init -y --default-toolchain stable
-    - name: Build
+    - name: Build Project
       run: |
         export PATH="$PATH/.cargo/bin:$PATH"
-        cargo build
+        cargo build --all
 
 #  windows:
 #    runs-on: windows-2016
