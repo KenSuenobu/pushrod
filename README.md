@@ -13,4 +13,7 @@ This library consists of two parts:
 - [Pushrod](https://www.github.com/KenSuenobu/pushrod/) main library, containing the controller
 - [Pushrod-Widgets](https://www.github.com/KenSuenobu/pushrod-widgets/) widgets library, containing the master widgets
 
+It also includes a builder application:
+
+- [Pushrod-Chassis](https://www.github.com/KenSuenobu/pushrod-chassis/), a GUI-based application layout builder
 
