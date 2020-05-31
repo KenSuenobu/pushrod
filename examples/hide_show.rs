@@ -23,13 +23,14 @@ use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
 use pushrod_widgets::properties::{
     PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE,
-    PROPERTY_FONT_STYLE, PROPERTY_HIDDEN, PROPERTY_MAIN_COLOR, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER,
+    PROPERTY_FONT_STYLE, PROPERTY_HIDDEN, PROPERTY_MAIN_COLOR, PROPERTY_TEXT,
+    PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER,
 };
 use pushrod_widgets::system_widgets::base_widget::BaseWidget;
 use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
+use pushrod_widgets::system_widgets::text_widget::TextWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::system_widgets::text_widget::TextWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {
