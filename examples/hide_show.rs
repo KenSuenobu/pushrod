@@ -21,11 +21,7 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{
-    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE,
-    PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR, PROPERTY_PROGRESS, PROPERTY_PROGRESS_COLOR,
-    PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER,
-};
+use pushrod_widgets::properties::{PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR, PROPERTY_PROGRESS, PROPERTY_PROGRESS_COLOR, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER, PROPERTY_HIDDEN};
 use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
 use pushrod_widgets::system_widgets::progress_widget::ProgressWidget;
 use pushrod_widgets::widget::Widget;
@@ -44,11 +40,40 @@ pub struct PushrodExample {
     button4_id: u32,
 }
 
+impl PushrodExample {
+    fn toggle_hide_show(&mut self, widget_id: u32, cache: &mut WidgetCache) {
+        let mut widget = cache.get(widget_id);
+
+        if widget.properties().get_bool(PROPERTY_HIDDEN) {
+            widget.properties().delete(PROPERTY_HIDDEN);
+        } else {
+            widget.properties().set_bool(PROPERTY_HIDDEN);
+        }
+
+        cache.get(0).invalidate();
+    }
+}
+
 impl EventHandler for PushrodExample {
-    fn handle_event(&mut self, event: Event, _cache: &mut WidgetCache) {
+    fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) {
         match event {
             Pushrod(pushrod_event) => match pushrod_event {
                 PushrodEvent::DrawFrame { .. } => {}
+                PushrodEvent::WidgetClicked {
+                    widget_id, button, clicks
+                } => {
+                    if button == 1 && clicks == 1 {
+                        if widget_id == self.button1_id {
+                            self.toggle_hide_show(self.base1_id, cache);
+                        } else if widget_id == self.button2_id {
+                            self.toggle_hide_show(self.base2_id, cache);
+                        } else if widget_id == self.button3_id {
+                            self.toggle_hide_show(self.base3_id, cache);
+                        } else if widget_id == self.button4_id {
+                            self.toggle_hide_show(self.base4_id, cache);
+                        }
+                    }
+                }
                 x => eprintln!("Pushrod unhandled event: {:?}", x),
             },
             Event::SDL2(x) => {
@@ -66,8 +91,7 @@ impl EventHandler for PushrodExample {
             .set_bounds(150, 150)
             .set_color(PROPERTY_MAIN_COLOR, Color::RED)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
-            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
-            .set(PROPERTY_TEXT, String::from("Click Me!"));
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK);
 
         self.base1_id = cache.add(Box::new(base1), String::from("base1"), 0);
 
@@ -79,10 +103,21 @@ impl EventHandler for PushrodExample {
             .set_bounds(150, 150)
             .set_color(PROPERTY_MAIN_COLOR, Color::GREEN)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
-            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
-            .set(PROPERTY_TEXT, String::from("Click Me!"));
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK);
 
         self.base2_id = cache.add(Box::new(base2), String::from("base2"), 0);
+
+        let mut base2_1 = BaseWidget::default();
+
+        &base2_1
+            .properties()
+            .set_origin(210, 40)
+            .set_bounds(110, 110)
+            .set_color(PROPERTY_MAIN_COLOR, Color::GREY)
+            .set_value(PROPERTY_BORDER_WIDTH, 2)
+            .set_color(PROPERTY_BORDER_COLOR, Color::RED);
+
+        cache.add(Box::new(base2_1), String::from("base2_1"), self.base2_id);
 
         let mut base3 = BaseWidget::default();
 
