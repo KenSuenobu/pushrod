@@ -5,3 +5,5 @@ so that developers know what code to modify, if any modifications are necessary.
 
 [PR #1](https://github.com/KenSuenobu/pushrod/issues/1): Add Workflow Actions for build
 
+[PR #6](https://github.com/KenSuenobu/pushrod-widgets/issues/6): Finished hide/show example app
+
