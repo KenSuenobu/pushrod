@@ -151,8 +151,7 @@ impl EventHandler for PushrodExample {
             .set_bounds(150, 150)
             .set_color(PROPERTY_MAIN_COLOR, Color::MAGENTA)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
-            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
-            .set(PROPERTY_TEXT, String::from("Click Me!"));
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK);
 
         self.base3_id = cache.add(Box::new(base3), String::from("base3"), 0);
 
@@ -164,10 +163,33 @@ impl EventHandler for PushrodExample {
             .set_bounds(150, 150)
             .set_color(PROPERTY_MAIN_COLOR, Color::CYAN)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
-            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
-            .set(PROPERTY_TEXT, String::from("Click Me!"));
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK);
 
-        self.base4_id = cache.add(Box::new(base4), String::from("base4"), 0);
+        let base4_id = cache.add(Box::new(base4), String::from("base4"), 0);
+
+        let mut base4_1 = BaseWidget::default();
+
+        &base4_1
+            .properties()
+            .set_origin(520, 40)
+            .set_bounds(110, 110)
+            .set_color(PROPERTY_MAIN_COLOR, Color::GREEN)
+            .set_value(PROPERTY_BORDER_WIDTH, 2)
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK);
+
+        self.base4_id = cache.add(Box::new(base4_1), String::from("base4_1"), base4_id);
+
+        let mut base4_2 = BaseWidget::default();
+
+        &base4_2
+            .properties()
+            .set_origin(560, 70)
+            .set_bounds(100, 70)
+            .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
+            .set_value(PROPERTY_BORDER_WIDTH, 2)
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK);
+
+        cache.add(Box::new(base4_2), String::from("base4_2"), self.base4_id);
 
         let mut button1 = ButtonWidget::default();
 
