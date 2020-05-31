@@ -31,6 +31,7 @@ use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
 use pushrod_widgets::system_widgets::progress_widget::ProgressWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
+use pushrod_widgets::system_widgets::text_widget::TextWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {
@@ -124,6 +125,23 @@ impl EventHandler for PushrodExample {
             .set_color(PROPERTY_BORDER_COLOR, Color::RED);
 
         cache.add(Box::new(base2_1), String::from("base2_1"), self.base2_id);
+
+        let mut text1 = TextWidget::default();
+
+        &text1
+            .properties()
+            .set_origin(360, 70)
+            .set_bounds(130, 26)
+            .set(
+                PROPERTY_FONT_NAME,
+                String::from("assets/OpenSans-Regular.ttf"),
+            )
+            .set_value(PROPERTY_FONT_SIZE, 18)
+            .set_value(PROPERTY_FONT_STYLE, sdl2::ttf::FontStyle::NORMAL.bits())
+            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(255, 255, 255, 1))
+            .set(PROPERTY_TEXT, String::from("BOO!!!"));
+
+        cache.add(Box::new(text1), String::from("text1"), 0);
 
         let mut base3 = BaseWidget::default();
 
