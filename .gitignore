@@ -10,4 +10,5 @@ Cargo.lock
 **/*.rs.bk
 .idea/
 pushrod-widgets/
-pushrod-events/
+pushrod-chassis/
+

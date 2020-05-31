@@ -176,7 +176,7 @@ impl EventHandler for PushrodExample {
             )
             .set_value(PROPERTY_FONT_SIZE, 18)
             .set_value(PROPERTY_FONT_STYLE, sdl2::ttf::FontStyle::NORMAL.bits())
-            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(255, 255, 255, 0))
+            .set_color(PROPERTY_MAIN_COLOR, Color::RGBA(255, 255, 255, 1))
             .set(PROPERTY_TEXT, String::from("Current Widget ID: 0"));
 
         self.text_id = cache.add(Box::new(text1), String::from("text1"), 0);

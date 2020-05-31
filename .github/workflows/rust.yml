@@ -1,0 +1,56 @@
+name: Rust
+
+on: [push]
+
+jobs:
+  Ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout root project
+      uses: actions/checkout@v1
+    - name: Checkout widgets
+      uses: actions/checkout@v2
+      with:
+        repository: KenSuenobu/pushrod-widgets
+        path: pushrod-widgets
+    - name: install_dependencies
+      run: |
+        sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu `lsb_release -sc` main universe restricted multiverse"
+        sudo apt-get update -y -qq
+        sudo apt-get install libsdl2-dev
+    - name: Build
+      run: |
+        cargo build --all
+
+  Mac_OS_X:
+    runs-on: macOS-latest
+    steps:
+    - name: Checkout root project
+      uses: actions/checkout@v1
+    - name: Checkout widgets
+      uses: actions/checkout@v2
+      with:
+        repository: KenSuenobu/pushrod-widgets
+        path: pushrod-widgets
+    - name: Install Brew dependencies
+      run: |
+        brew install ruby sdl2 sdl2_image sdl2_ttf rustup
+        rustup-init -y --default-toolchain stable
+    - name: Build Project
+      run: |
+        export PATH="$PATH/.cargo/bin:$PATH"
+        cargo build --all
+
+  Windows:
+    runs-on: windows-2016
+    steps:
+    - name: Checkout root project
+      uses: actions/checkout@v1
+    - name: Checkout widgets
+      uses: actions/checkout@v2
+      with:
+        repository: KenSuenobu/pushrod-widgets
+        path: pushrod-widgets
+    - name: Build
+      run: cargo build
+
