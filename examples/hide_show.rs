@@ -23,12 +23,10 @@ use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
 use pushrod_widgets::properties::{
     PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE,
-    PROPERTY_FONT_STYLE, PROPERTY_HIDDEN, PROPERTY_MAIN_COLOR, PROPERTY_PROGRESS,
-    PROPERTY_PROGRESS_COLOR, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER,
+    PROPERTY_FONT_STYLE, PROPERTY_HIDDEN, PROPERTY_MAIN_COLOR, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER,
 };
 use pushrod_widgets::system_widgets::base_widget::BaseWidget;
 use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
-use pushrod_widgets::system_widgets::progress_widget::ProgressWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
 use pushrod_widgets::system_widgets::text_widget::TextWidget;
@@ -47,12 +45,12 @@ pub struct PushrodExample {
 
 impl PushrodExample {
     fn toggle_hide_show(&mut self, widget_id: u32, cache: &mut WidgetCache) {
-        let mut widget = cache.get(widget_id);
+        let hidden = cache.get(widget_id).properties().get_bool(PROPERTY_HIDDEN);
 
-        if widget.properties().get_bool(PROPERTY_HIDDEN) {
-            widget.properties().delete(PROPERTY_HIDDEN);
+        if hidden {
+            cache.set_hidden(widget_id, false);
         } else {
-            widget.properties().set_bool(PROPERTY_HIDDEN);
+            cache.set_hidden(widget_id, true);
         }
 
         cache.get(0).invalidate();
