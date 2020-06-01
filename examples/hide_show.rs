@@ -91,7 +91,7 @@ impl EventHandler for PushrodExample {
     fn build_layout(&mut self, cache: &mut WidgetCache) {
         let mut base1 = BaseWidget::default();
 
-        &base1
+        base1
             .properties()
             .set_origin(20, 20)
             .set_bounds(150, 150)
@@ -103,7 +103,7 @@ impl EventHandler for PushrodExample {
 
         let mut base2 = BaseWidget::default();
 
-        &base2
+        base2
             .properties()
             .set_origin(180, 20)
             .set_bounds(150, 150)
@@ -115,7 +115,7 @@ impl EventHandler for PushrodExample {
 
         let mut base2_1 = BaseWidget::default();
 
-        &base2_1
+        base2_1
             .properties()
             .set_origin(210, 40)
             .set_bounds(110, 110)
@@ -127,7 +127,7 @@ impl EventHandler for PushrodExample {
 
         let mut text1 = TextWidget::default();
 
-        &text1
+        text1
             .properties()
             .set_origin(360, 70)
             .set_bounds(130, 26)
@@ -144,7 +144,7 @@ impl EventHandler for PushrodExample {
 
         let mut base3 = BaseWidget::default();
 
-        &base3
+        base3
             .properties()
             .set_origin(340, 20)
             .set_bounds(150, 150)
@@ -156,7 +156,7 @@ impl EventHandler for PushrodExample {
 
         let mut base4 = BaseWidget::default();
 
-        &base4
+        base4
             .properties()
             .set_origin(500, 20)
             .set_bounds(150, 150)
@@ -168,7 +168,7 @@ impl EventHandler for PushrodExample {
 
         let mut base4_1 = BaseWidget::default();
 
-        &base4_1
+        base4_1
             .properties()
             .set_origin(520, 40)
             .set_bounds(110, 110)
@@ -180,7 +180,7 @@ impl EventHandler for PushrodExample {
 
         let mut base4_2 = BaseWidget::default();
 
-        &base4_2
+        base4_2
             .properties()
             .set_origin(560, 70)
             .set_bounds(100, 70)
@@ -192,7 +192,7 @@ impl EventHandler for PushrodExample {
 
         let mut button1 = ButtonWidget::default();
 
-        &button1
+        button1
             .properties()
             .set_origin(20, 180)
             .set_bounds(150, 32)
@@ -212,7 +212,7 @@ impl EventHandler for PushrodExample {
 
         let mut button2 = ButtonWidget::default();
 
-        &button2
+        button2
             .properties()
             .set_origin(180, 180)
             .set_bounds(150, 32)
@@ -232,7 +232,7 @@ impl EventHandler for PushrodExample {
 
         let mut button3 = ButtonWidget::default();
 
-        &button3
+        button3
             .properties()
             .set_origin(340, 180)
             .set_bounds(150, 32)
@@ -252,7 +252,7 @@ impl EventHandler for PushrodExample {
 
         let mut button4 = ButtonWidget::default();
 
-        &button4
+        button4
             .properties()
             .set_origin(500, 180)
             .set_bounds(150, 32)

@@ -71,7 +71,7 @@ impl EventHandler for PushrodExample {
     fn build_layout(&mut self, cache: &mut WidgetCache) {
         let mut widget1 = ImageWidget::default();
 
-        &widget1
+        widget1
             .properties()
             .set_origin(20, 16)
             .set_bounds(60, 60)
@@ -86,7 +86,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget2 = ImageWidget::default();
 
-        &widget2
+        widget2
             .properties()
             .set_origin(90, 16)
             .set_bounds(60, 60)
@@ -101,7 +101,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget3 = ImageWidget::default();
 
-        &widget3
+        widget3
             .properties()
             .set_origin(160, 16)
             .set_bounds(60, 60)
@@ -116,7 +116,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget4 = ImageWidget::default();
 
-        &widget4
+        widget4
             .properties()
             .set_origin(20, 86)
             .set_bounds(60, 60)
@@ -131,7 +131,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget5 = ImageWidget::default();
 
-        &widget5
+        widget5
             .properties()
             .set_origin(90, 86)
             .set_bounds(60, 60)
@@ -146,7 +146,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget6 = ImageWidget::default();
 
-        &widget6
+        widget6
             .properties()
             .set_origin(160, 86)
             .set_bounds(60, 60)
@@ -161,7 +161,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget7 = ImageWidget::default();
 
-        &widget7
+        widget7
             .properties()
             .set_origin(20, 156)
             .set_bounds(60, 60)
@@ -176,7 +176,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget8 = ImageWidget::default();
 
-        &widget8
+        widget8
             .properties()
             .set_origin(90, 156)
             .set_bounds(60, 60)
@@ -191,7 +191,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget9 = ImageWidget::default();
 
-        &widget9
+        widget9
             .properties()
             .set_origin(160, 156)
             .set_bounds(60, 60)
@@ -206,7 +206,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget10 = ImageWidget::default();
 
-        &widget10
+        widget10
             .properties()
             .set_origin(230, 16)
             .set_bounds(80, 80)
@@ -222,7 +222,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget11 = ImageWidget::default();
 
-        &widget11
+        widget11
             .properties()
             .set_origin(260, 46)
             .set_bounds(120, 120)
@@ -238,7 +238,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget12 = ImageWidget::default();
 
-        &widget12
+        widget12
             .properties()
             .set_origin(320, 86)
             .set_bounds(160, 160)

@@ -34,7 +34,7 @@ impl EventHandler for PushrodExample {
     fn build_layout(&mut self, cache: &mut WidgetCache) {
         let mut grid_widget1 = GridWidget::default();
 
-        &grid_widget1
+        grid_widget1
             .properties()
             .set_origin(20, 20)
             .set_bounds(280, 440)
@@ -49,7 +49,7 @@ impl EventHandler for PushrodExample {
 
         let mut grid_widget2 = GridWidget::default();
 
-        &grid_widget2
+        grid_widget2
             .properties()
             .set_origin(320, 20)
             .set_bounds(280, 440)

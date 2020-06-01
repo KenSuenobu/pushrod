@@ -50,7 +50,7 @@ impl EventHandler for PushrodExample {
     fn build_layout(&mut self, cache: &mut WidgetCache) {
         let mut button1 = ButtonWidget::default();
 
-        &button1
+        button1
             .properties()
             .set_origin(20, 20)
             .set_bounds(360, 60)
