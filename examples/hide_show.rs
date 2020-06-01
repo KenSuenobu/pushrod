@@ -21,16 +21,13 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{
-    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE,
-    PROPERTY_FONT_STYLE, PROPERTY_HIDDEN, PROPERTY_MAIN_COLOR, PROPERTY_TEXT,
-    PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER,
-};
+use pushrod_widgets::properties::{PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_HIDDEN, PROPERTY_MAIN_COLOR, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER, PROPERTY_GROUP_BACKGROUND_COLOR};
 use pushrod_widgets::system_widgets::base_widget::BaseWidget;
 use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
 use pushrod_widgets::system_widgets::text_widget::TextWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
+use pushrod_widgets::system_widgets::group_box_widget::GroupBoxWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {
@@ -89,11 +86,30 @@ impl EventHandler for PushrodExample {
     }
 
     fn build_layout(&mut self, cache: &mut WidgetCache) {
+        let mut group_box = GroupBoxWidget::default();
+
+        group_box
+            .properties()
+            .set_origin(10, 6)
+            .set_bounds(650, 194)
+            .set_value(PROPERTY_BORDER_WIDTH, 1)
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
+            .set_color(PROPERTY_GROUP_BACKGROUND_COLOR, Color::RGBA(224, 224, 244, 255))
+            .set(
+                PROPERTY_FONT_NAME,
+                String::from("assets/OpenSans-Regular.ttf"),
+            )
+            .set_value(PROPERTY_FONT_SIZE, 14)
+            .set_value(PROPERTY_FONT_STYLE, sdl2::ttf::FontStyle::NORMAL.bits())
+            .set(PROPERTY_TEXT, String::from(" HIDE / SHOW EXAMPLE "));
+
+        cache.add(Box::new(group_box), String::from("group_box"), 0);
+
         let mut base1 = BaseWidget::default();
 
         base1
             .properties()
-            .set_origin(20, 20)
+            .set_origin(20, 36)
             .set_bounds(150, 150)
             .set_color(PROPERTY_MAIN_COLOR, Color::RED)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
@@ -105,7 +121,7 @@ impl EventHandler for PushrodExample {
 
         base2
             .properties()
-            .set_origin(180, 20)
+            .set_origin(180, 36)
             .set_bounds(150, 150)
             .set_color(PROPERTY_MAIN_COLOR, Color::GREEN)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
@@ -117,7 +133,7 @@ impl EventHandler for PushrodExample {
 
         base2_1
             .properties()
-            .set_origin(210, 40)
+            .set_origin(210, 56)
             .set_bounds(110, 110)
             .set_color(PROPERTY_MAIN_COLOR, Color::GREY)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
@@ -129,7 +145,7 @@ impl EventHandler for PushrodExample {
 
         text1
             .properties()
-            .set_origin(360, 70)
+            .set_origin(360, 86)
             .set_bounds(130, 26)
             .set(
                 PROPERTY_FONT_NAME,
@@ -146,7 +162,7 @@ impl EventHandler for PushrodExample {
 
         base3
             .properties()
-            .set_origin(340, 20)
+            .set_origin(340, 36)
             .set_bounds(150, 150)
             .set_color(PROPERTY_MAIN_COLOR, Color::MAGENTA)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
@@ -158,7 +174,7 @@ impl EventHandler for PushrodExample {
 
         base4
             .properties()
-            .set_origin(500, 20)
+            .set_origin(500, 36)
             .set_bounds(150, 150)
             .set_color(PROPERTY_MAIN_COLOR, Color::CYAN)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
@@ -170,7 +186,7 @@ impl EventHandler for PushrodExample {
 
         base4_1
             .properties()
-            .set_origin(520, 40)
+            .set_origin(520, 56)
             .set_bounds(110, 110)
             .set_color(PROPERTY_MAIN_COLOR, Color::GREEN)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
@@ -182,7 +198,7 @@ impl EventHandler for PushrodExample {
 
         base4_2
             .properties()
-            .set_origin(560, 70)
+            .set_origin(560, 76)
             .set_bounds(100, 70)
             .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
             .set_value(PROPERTY_BORDER_WIDTH, 2)
@@ -194,7 +210,7 @@ impl EventHandler for PushrodExample {
 
         button1
             .properties()
-            .set_origin(20, 180)
+            .set_origin(20, 210)
             .set_bounds(150, 32)
             .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
             .set(
@@ -214,7 +230,7 @@ impl EventHandler for PushrodExample {
 
         button2
             .properties()
-            .set_origin(180, 180)
+            .set_origin(180, 210)
             .set_bounds(150, 32)
             .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
             .set(
@@ -234,7 +250,7 @@ impl EventHandler for PushrodExample {
 
         button3
             .properties()
-            .set_origin(340, 180)
+            .set_origin(340, 210)
             .set_bounds(150, 32)
             .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
             .set(
@@ -254,7 +270,7 @@ impl EventHandler for PushrodExample {
 
         button4
             .properties()
-            .set_origin(500, 180)
+            .set_origin(500, 210)
             .set_bounds(150, 32)
             .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
             .set(
@@ -273,7 +289,7 @@ impl EventHandler for PushrodExample {
 }
 
 pub fn main() {
-    let (sdl_context, _, window) = init_application("pushrod example", 670, 230);
+    let (sdl_context, _, window) = init_application("pushrod example", 670, 250);
     let mut engine = Engine::new(Box::new(PushrodExample::default()), &window);
 
     engine.run(sdl_context, window);
