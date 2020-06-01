@@ -3,6 +3,7 @@ so that developers know what code to modify, if any modifications are necessary.
 
 ### v0.1.2
 
+[PR #5](https://github.com/KenSuenobu/pushrod/issues/5): Remove unnecessary borrowing from examples
 
 ### v0.1.1
 
