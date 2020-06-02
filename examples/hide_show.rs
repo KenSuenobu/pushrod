@@ -21,13 +21,17 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_HIDDEN, PROPERTY_MAIN_COLOR, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER, PROPERTY_GROUP_BACKGROUND_COLOR};
+use pushrod_widgets::properties::{
+    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE,
+    PROPERTY_FONT_STYLE, PROPERTY_GROUP_BACKGROUND_COLOR, PROPERTY_HIDDEN, PROPERTY_MAIN_COLOR,
+    PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER,
+};
 use pushrod_widgets::system_widgets::base_widget::BaseWidget;
 use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
+use pushrod_widgets::system_widgets::group_box_widget::GroupBoxWidget;
 use pushrod_widgets::system_widgets::text_widget::TextWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::system_widgets::group_box_widget::GroupBoxWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {
@@ -94,7 +98,10 @@ impl EventHandler for PushrodExample {
             .set_bounds(650, 194)
             .set_value(PROPERTY_BORDER_WIDTH, 1)
             .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
-            .set_color(PROPERTY_GROUP_BACKGROUND_COLOR, Color::RGBA(224, 224, 244, 255))
+            .set_color(
+                PROPERTY_GROUP_BACKGROUND_COLOR,
+                Color::RGBA(224, 224, 244, 255),
+            )
             .set(
                 PROPERTY_FONT_NAME,
                 String::from("assets/OpenSans-Regular.ttf"),
