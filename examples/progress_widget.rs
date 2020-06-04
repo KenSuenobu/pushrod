@@ -47,7 +47,7 @@ impl EventHandler for PushrodExample {
     fn build_layout(&mut self, cache: &mut WidgetCache) {
         let mut progress1 = ProgressWidget::default();
 
-        &progress1
+        progress1
             .properties()
             .set_origin(20, 20)
             .set_bounds(360, 40)
@@ -59,7 +59,7 @@ impl EventHandler for PushrodExample {
 
         let mut progress2 = ProgressWidget::default();
 
-        &progress2
+        progress2
             .properties()
             .set_origin(20, 70)
             .set_bounds(360, 40)
@@ -71,7 +71,7 @@ impl EventHandler for PushrodExample {
 
         let mut progress3 = ProgressWidget::default();
 
-        &progress3
+        progress3
             .properties()
             .set_origin(20, 120)
             .set_bounds(360, 40)
@@ -83,7 +83,7 @@ impl EventHandler for PushrodExample {
 
         let mut progress4 = ProgressWidget::default();
 
-        &progress4
+        progress4
             .properties()
             .set_origin(20, 170)
             .set_bounds(360, 40)

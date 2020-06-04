@@ -22,9 +22,12 @@ use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
 use pushrod_widgets::properties::{
-    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_IMAGE_FILENAME, PROPERTY_IMAGE_POSITION,
-    PROPERTY_IMAGE_SCALED, PROPERTY_MAIN_COLOR,
+    IMAGE_JUSTIFY_LEFT, IMAGE_JUSTIFY_RIGHT, PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH,
+    PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_IMAGE_FILENAME,
+    PROPERTY_IMAGE_POSITION, PROPERTY_IMAGE_SCALED, PROPERTY_MAIN_COLOR, PROPERTY_TEXT,
+    PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER,
 };
+use pushrod_widgets::system_widgets::image_button_widget::ImageButtonWidget;
 use pushrod_widgets::system_widgets::image_widget::{
     ImageWidget, COMPASS_CENTER, COMPASS_E, COMPASS_N, COMPASS_NE, COMPASS_NW, COMPASS_S,
     COMPASS_SE, COMPASS_SW, COMPASS_W,
@@ -36,29 +39,9 @@ use sdl2::pixels::Color;
 pub struct PushrodExample {}
 
 impl EventHandler for PushrodExample {
-    fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) {
+    fn handle_event(&mut self, event: Event, _c: &mut WidgetCache) {
         match event {
             Pushrod(pushrod_event) => match pushrod_event {
-                PushrodEvent::WidgetMouseEntered { widget_id } => {
-                    cache
-                        .get(widget_id)
-                        .properties()
-                        .set_value(PROPERTY_BORDER_WIDTH, 1);
-                    cache
-                        .get(widget_id)
-                        .properties()
-                        .set_color(PROPERTY_BORDER_COLOR, Color::BLUE);
-                }
-                PushrodEvent::WidgetMouseExited { widget_id } => {
-                    cache
-                        .get(widget_id)
-                        .properties()
-                        .set_value(PROPERTY_BORDER_WIDTH, 0);
-                    cache
-                        .get(widget_id)
-                        .properties()
-                        .set_color(PROPERTY_BORDER_COLOR, Color::BLUE);
-                }
                 PushrodEvent::DrawFrame { .. } => {}
                 _ => {}
             },
@@ -71,7 +54,7 @@ impl EventHandler for PushrodExample {
     fn build_layout(&mut self, cache: &mut WidgetCache) {
         let mut widget1 = ImageWidget::default();
 
-        &widget1
+        widget1
             .properties()
             .set_origin(20, 16)
             .set_bounds(60, 60)
@@ -86,7 +69,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget2 = ImageWidget::default();
 
-        &widget2
+        widget2
             .properties()
             .set_origin(90, 16)
             .set_bounds(60, 60)
@@ -101,7 +84,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget3 = ImageWidget::default();
 
-        &widget3
+        widget3
             .properties()
             .set_origin(160, 16)
             .set_bounds(60, 60)
@@ -116,7 +99,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget4 = ImageWidget::default();
 
-        &widget4
+        widget4
             .properties()
             .set_origin(20, 86)
             .set_bounds(60, 60)
@@ -131,7 +114,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget5 = ImageWidget::default();
 
-        &widget5
+        widget5
             .properties()
             .set_origin(90, 86)
             .set_bounds(60, 60)
@@ -146,7 +129,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget6 = ImageWidget::default();
 
-        &widget6
+        widget6
             .properties()
             .set_origin(160, 86)
             .set_bounds(60, 60)
@@ -161,7 +144,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget7 = ImageWidget::default();
 
-        &widget7
+        widget7
             .properties()
             .set_origin(20, 156)
             .set_bounds(60, 60)
@@ -176,7 +159,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget8 = ImageWidget::default();
 
-        &widget8
+        widget8
             .properties()
             .set_origin(90, 156)
             .set_bounds(60, 60)
@@ -191,7 +174,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget9 = ImageWidget::default();
 
-        &widget9
+        widget9
             .properties()
             .set_origin(160, 156)
             .set_bounds(60, 60)
@@ -206,7 +189,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget10 = ImageWidget::default();
 
-        &widget10
+        widget10
             .properties()
             .set_origin(230, 16)
             .set_bounds(80, 80)
@@ -222,7 +205,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget11 = ImageWidget::default();
 
-        &widget11
+        widget11
             .properties()
             .set_origin(260, 46)
             .set_bounds(120, 120)
@@ -238,7 +221,7 @@ impl EventHandler for PushrodExample {
 
         let mut widget12 = ImageWidget::default();
 
-        &widget12
+        widget12
             .properties()
             .set_origin(320, 86)
             .set_bounds(160, 160)
@@ -251,11 +234,63 @@ impl EventHandler for PushrodExample {
             );
 
         cache.add(Box::new(widget12), String::from("widget12"), 0);
+
+        let mut button1 = ImageButtonWidget::default();
+
+        button1
+            .properties()
+            .set_origin(20, 250)
+            .set_bounds(460, 50)
+            .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
+            .set(
+                PROPERTY_FONT_NAME,
+                String::from("assets/OpenSans-Regular.ttf"),
+            )
+            .set_value(PROPERTY_FONT_SIZE, 18)
+            .set_value(PROPERTY_FONT_STYLE, sdl2::ttf::FontStyle::NORMAL.bits())
+            .set_value(PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER)
+            .set_value(PROPERTY_BORDER_WIDTH, 2)
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
+            .set_value(PROPERTY_IMAGE_POSITION, IMAGE_JUSTIFY_LEFT)
+            .set_bool(PROPERTY_IMAGE_SCALED)
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            )
+            .set(PROPERTY_TEXT, String::from("Left Justified Image"));
+
+        cache.add(Box::new(button1), String::from("button1"), 0);
+
+        let mut button2 = ImageButtonWidget::default();
+
+        button2
+            .properties()
+            .set_origin(20, 310)
+            .set_bounds(460, 50)
+            .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
+            .set(
+                PROPERTY_FONT_NAME,
+                String::from("assets/OpenSans-Regular.ttf"),
+            )
+            .set_value(PROPERTY_FONT_SIZE, 18)
+            .set_value(PROPERTY_FONT_STYLE, sdl2::ttf::FontStyle::NORMAL.bits())
+            .set_value(PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER)
+            .set_value(PROPERTY_BORDER_WIDTH, 2)
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
+            .set_value(PROPERTY_IMAGE_POSITION, IMAGE_JUSTIFY_RIGHT)
+            .set_bool(PROPERTY_IMAGE_SCALED)
+            .set(
+                PROPERTY_IMAGE_FILENAME,
+                String::from("assets/rust-48x48.jpg"),
+            )
+            .set(PROPERTY_TEXT, String::from("Right Justified Image"));
+
+        cache.add(Box::new(button2), String::from("button2"), 0);
     }
 }
 
 pub fn main() {
-    let (sdl_context, _, window) = init_application("pushrod example", 500, 270);
+    let (sdl_context, _, window) = init_application("pushrod example", 500, 370);
     let mut engine = Engine::new(Box::new(PushrodExample::default()), &window);
 
     engine.run(sdl_context, window);
