@@ -39,7 +39,7 @@ use sdl2::pixels::Color;
 pub struct PushrodExample {}
 
 impl EventHandler for PushrodExample {
-    fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) {
+    fn handle_event(&mut self, event: Event, _c: &mut WidgetCache) {
         match event {
             Pushrod(pushrod_event) => match pushrod_event {
                 PushrodEvent::DrawFrame { .. } => {}
