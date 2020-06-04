@@ -1,6 +1,6 @@
 [package]
 name = "pushrod"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Ken Suenobu <ksuenobu@fastmail.com>"]
 edition = "2018"
 description = "Pushrod UI Library"
