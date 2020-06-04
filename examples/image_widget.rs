@@ -21,14 +21,19 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_IMAGE_FILENAME, PROPERTY_IMAGE_POSITION, PROPERTY_IMAGE_SCALED, PROPERTY_MAIN_COLOR, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_TEXT_JUSTIFICATION, PROPERTY_TEXT, TEXT_JUSTIFY_CENTER, IMAGE_JUSTIFY_LEFT, IMAGE_JUSTIFY_RIGHT};
+use pushrod_widgets::properties::{
+    IMAGE_JUSTIFY_LEFT, IMAGE_JUSTIFY_RIGHT, PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH,
+    PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_IMAGE_FILENAME,
+    PROPERTY_IMAGE_POSITION, PROPERTY_IMAGE_SCALED, PROPERTY_MAIN_COLOR, PROPERTY_TEXT,
+    PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER,
+};
+use pushrod_widgets::system_widgets::image_button_widget::ImageButtonWidget;
 use pushrod_widgets::system_widgets::image_widget::{
     ImageWidget, COMPASS_CENTER, COMPASS_E, COMPASS_N, COMPASS_NE, COMPASS_NW, COMPASS_S,
     COMPASS_SE, COMPASS_SW, COMPASS_W,
 };
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::system_widgets::image_button_widget::ImageButtonWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {}

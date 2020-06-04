@@ -21,13 +21,18 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR, PROPERTY_PROGRESS, PROPERTY_PROGRESS_COLOR, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER, PROPERTY_TOGGLED, TEXT_JUSTIFY_LEFT, TEXT_JUSTIFY_RIGHT};
+use pushrod_widgets::properties::{
+    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE,
+    PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR, PROPERTY_PROGRESS, PROPERTY_PROGRESS_COLOR,
+    PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, PROPERTY_TOGGLED, TEXT_JUSTIFY_CENTER,
+    TEXT_JUSTIFY_LEFT, TEXT_JUSTIFY_RIGHT,
+};
 use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
+use pushrod_widgets::system_widgets::checkbox_widget::CheckBoxWidget;
 use pushrod_widgets::system_widgets::progress_widget::ProgressWidget;
+use pushrod_widgets::system_widgets::toggle_button_widget::ToggleButtonWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::system_widgets::toggle_button_widget::ToggleButtonWidget;
-use pushrod_widgets::system_widgets::checkbox_widget::CheckBoxWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {}
