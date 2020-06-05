@@ -171,7 +171,9 @@ impl Engine {
         }
     }
 
-    /// Handles a draw frame event.
+    /// Handles a draw frame event.  This is a timer tick event that can be used by an application
+    /// to refresh positions, redraw 3D objects, etc.  It provides a display tick so that the
+    /// application can refresh at a rate of 60 frames/sec.
     #[inline]
     fn handle_draw_frame(&mut self, timestamp: u128) {
         let event = DrawFrame { timestamp };
@@ -245,11 +247,13 @@ impl Engine {
                     .as_millis(),
             );
 
+            // Draw the screen if any widgets have been invalidated
             if self.cache.invalidated() {
                 // Draw after events are processed.
                 self.cache.refresh(&mut canvas);
             }
 
+            // And pause the CPU if required to keep the system at 60 fps.
             let now = SystemTime::now()
                 .duration_since(UNIX_EPOCH)
                 .unwrap()
