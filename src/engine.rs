@@ -17,7 +17,7 @@ use sdl2::video::Window;
 use sdl2::Sdl;
 
 use pushrod_widgets::caches::WidgetCache;
-use pushrod_widgets::event::PushrodEvent::DrawFrame;
+use pushrod_widgets::event::PushrodEvent::{DrawFrame, WidgetRadioSelected};
 use pushrod_widgets::event::{Event, PushrodEvent};
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
@@ -102,7 +102,15 @@ impl Engine {
 
             if let Some(x) = handled_event {
                 self.handler
-                    .handle_event(Event::Pushrod(x), &mut self.cache)
+                    .handle_event(Event::Pushrod(x.clone()), &mut self.cache);
+
+                // RESEND the event ONLY IF the event qualifies as a re-distributable event, as the widget's
+                // generated event has already been sent to the handler.  This could potentially cause
+                // an infinite loop, so this needs to be used with care.
+                match x {
+                    WidgetRadioSelected{ .. } => self.send_event_to_all(x.clone()),
+                    _ => {},
+                }
             }
         }
     }
