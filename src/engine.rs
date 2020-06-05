@@ -172,6 +172,7 @@ impl Engine {
     }
 
     /// Handles a draw frame event.
+    #[inline]
     fn handle_draw_frame(&mut self, timestamp: u128) {
         let event = DrawFrame { timestamp };
 
