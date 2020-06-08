@@ -46,24 +46,24 @@ impl EventHandler for PushrodExample {
     }
 
     fn build_layout(&mut self, cache: &mut WidgetCache) {
-        for i in 0..7 {
+        for i in 0..11 {
             let mut menu_item_widget = MenuItemWidget::default();
 
             menu_item_widget
                 .properties()
-                .set_origin(20, 20 + (i * 30))
-                .set_bounds(360, 30)
+                .set_origin(20, 20 + (i * 20))
+                .set_bounds(360, 20)
                 .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
                 .set(
                     PROPERTY_FONT_NAME,
                     String::from("assets/OpenSans-Regular.ttf"),
                 )
-                .set_value(PROPERTY_FONT_SIZE, 18)
+                .set_value(PROPERTY_FONT_SIZE, 14)
                 .set_value(PROPERTY_FONT_STYLE, sdl2::ttf::FontStyle::NORMAL.bits())
                 .set_value(PROPERTY_MENU_ITEM_ID, (i + 1) as i32)
                 .set(PROPERTY_TEXT, format!("Menu Item {}", i + 1));
 
-            if i % 2 == 1 {
+            if i % 3 == 2 {
                 menu_item_widget.properties()
                     .set_bool(PROPERTY_DISABLED);
             }
