@@ -21,9 +21,8 @@ use pushrod_widgets::event::PushrodEvent::{DrawFrame, WidgetRadioSelected};
 use pushrod_widgets::event::{Event, PushrodEvent};
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
-use std::borrow::BorrowMut;
-use std::sync::{Mutex, Arc};
-use std::cell::RefCell;
+use pushrod_widgets::properties::PROPERTY_NEEDS_LAYOUT;
+use pushrod_widgets::widget::Widget;
 
 /// This is an event handler that is passed into a main event loop.  Since there can be multiple
 /// windows open at any one time, the event handler that is implemented using this `trait` should
@@ -58,6 +57,12 @@ pub struct Engine {
     handler: Box<dyn EventHandler>,
     cache: WidgetCache,
     running: bool,
+}
+
+#[derive(Default)]
+pub struct WidgetAddList {
+    add_list: Vec<Box<dyn Widget>>,
+    parent_id: u32,
 }
 
 /// This is an implementation of `Pushrod`, the main loop handler.  Multiple `Pushrod`s
@@ -204,6 +209,44 @@ impl Engine {
         }
     }
 
+    /// This function handles the building of additional `Widget`s to the `WidgetCache` if a newly
+    /// added `Widget` (or one that has been interacted with) needs to have additional `Widget`s added
+    /// to the `WidgetCache`.
+    fn handle_build_layout(&mut self) {
+        let num_widgets = self.cache.size();
+        let mut add_list: Vec<WidgetAddList> = Vec::new();
+
+        // First, build the list of Widgets that are required for each Widget that needs a layout.
+        // Any Widgets that need to be built are stored in the add_list, and are processed after
+        // processing the list that needs to be built.
+        for i in 0..num_widgets {
+            let mut widget = self.cache.get(i);
+
+            if widget.properties().get_bool(PROPERTY_NEEDS_LAYOUT) {
+                let widget_list = widget.build_layout();
+                let mut add_entries = WidgetAddList::default();
+
+                add_entries.add_list = widget_list;
+                add_entries.parent_id = i;
+                add_list.push(add_entries);
+            }
+        }
+
+        // Skip over the next logic if the list is empty.
+        if add_list.is_empty() {
+            return;
+        }
+
+        // Walk the tree of widgets to add, and add them directly to the cache here.
+        for addable in add_list {
+            let widget_list = addable.add_list;
+            let parent_id = addable.parent_id;
+            let resulting_ids = self.cache.add_vec(widget_list, parent_id);
+
+            self.cache.get_mut(parent_id).constructed_layout_ids(resulting_ids);
+        }
+    }
+
     /// This is the main event handler for the application.  It handles all of the events generated
     /// by the `SDL2` manager, and translates them into events that can be used by the `handle_event`
     /// method.
@@ -258,15 +301,16 @@ impl Engine {
                     .as_millis(),
             );
 
-            // Draw the screen if any widgets have been invalidated
+            // Any Widgets that need a layout can be handled here.
+            if self.cache.needs_layout() {
+                self.handle_build_layout();
+            }
+
+            // Draw the screen if any widgets have been invalidated or added to the display list
             if self.cache.invalidated() {
                 // Draw after events are processed.
                 self.cache.refresh(&mut canvas);
             }
-
-            let mut widget = self.cache.get_mut(1);
-
-            let vec_list = widget.build_layout();
 
             // And pause the CPU if required to keep the system at 60 fps.
             let now = SystemTime::now()
