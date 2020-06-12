@@ -229,6 +229,8 @@ impl Engine {
                 add_entries.add_list = widget_list;
                 add_entries.parent_id = i;
                 add_list.push(add_entries);
+
+                widget.properties().delete(PROPERTY_NEEDS_LAYOUT);
             }
         }
 
