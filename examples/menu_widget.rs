@@ -21,10 +21,13 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR, PROPERTY_TEXT, PROPERTY_MENU_ITEM_ID, PROPERTY_DISABLED};
+use pushrod_widgets::properties::{
+    PROPERTY_DISABLED, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE,
+    PROPERTY_MAIN_COLOR, PROPERTY_MENU_ITEM_ID, PROPERTY_TEXT,
+};
+use pushrod_widgets::system_widgets::menu_item_widget::MenuItemWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::system_widgets::menu_item_widget::MenuItemWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {}
@@ -35,7 +38,8 @@ impl EventHandler for PushrodExample {
             Pushrod(pushrod_event) => match pushrod_event {
                 PushrodEvent::DrawFrame { .. } => {}
                 PushrodEvent::WidgetMenuItemSelected {
-                    widget_id: _, menu_item
+                    widget_id: _,
+                    menu_item,
                 } => eprintln!("Menu item ID selected: {}", menu_item),
                 x => eprintln!("Pushrod unhandled event: {:?}", x),
             },
@@ -64,8 +68,7 @@ impl EventHandler for PushrodExample {
                 .set(PROPERTY_TEXT, format!("Menu Item {}", i + 1));
 
             if i % 3 == 2 {
-                menu_item_widget.properties()
-                    .set_bool(PROPERTY_DISABLED);
+                menu_item_widget.properties().set_bool(PROPERTY_DISABLED);
             }
 
             cache.add(Box::new(menu_item_widget), format!("widget{}", i), 0);

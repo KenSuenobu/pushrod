@@ -19,10 +19,10 @@ use sdl2::Sdl;
 use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::PushrodEvent::{DrawFrame, WidgetRadioSelected};
 use pushrod_widgets::event::{Event, PushrodEvent};
-use std::thread::sleep;
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use pushrod_widgets::properties::PROPERTY_NEEDS_LAYOUT;
 use pushrod_widgets::widget::Widget;
+use std::thread::sleep;
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 /// This is an event handler that is passed into a main event loop.  Since there can be multiple
 /// windows open at any one time, the event handler that is implemented using this `trait` should
@@ -115,9 +115,12 @@ impl Engine {
                 // RESEND the event ONLY IF the event qualifies as a re-distributable event, as the widget's
                 // generated event has already been sent to the handler.  This could potentially cause
                 // an infinite loop, so this needs to be used with care.
+                //
+                // Clippy is complaining about this being only one event.  This will eventually become
+                // multiple events that are handled by a "rebroadcast" flag soon.
                 match x {
-                    WidgetRadioSelected{ .. } => self.send_event_to_all(x.clone()),
-                    _ => {},
+                    WidgetRadioSelected { .. } => self.send_event_to_all(x.clone()),
+                    _ => {}
                 }
             }
         }
@@ -245,7 +248,9 @@ impl Engine {
             let parent_id = addable.parent_id;
             let resulting_ids = self.cache.add_vec(widget_list, parent_id);
 
-            self.cache.get_mut(parent_id).constructed_layout_ids(resulting_ids);
+            self.cache
+                .get_mut(parent_id)
+                .constructed_layout_ids(resulting_ids);
         }
     }
 

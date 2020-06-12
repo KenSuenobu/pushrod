@@ -21,17 +21,21 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_GROUP_BACKGROUND_COLOR, PROPERTY_HIDDEN, PROPERTY_MAIN_COLOR, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER, PROPERTY_TOGGLED, TEXT_JUSTIFY_LEFT, PROPERTY_GROUP_ID};
+use pushrod_widgets::properties::{
+    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE,
+    PROPERTY_FONT_STYLE, PROPERTY_GROUP_BACKGROUND_COLOR, PROPERTY_GROUP_ID, PROPERTY_MAIN_COLOR,
+    PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, PROPERTY_TOGGLED, TEXT_JUSTIFY_LEFT,
+};
 use pushrod_widgets::system_widgets::group_box_widget::GroupBoxWidget;
+use pushrod_widgets::system_widgets::radio_button_widget::RadioButtonWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::system_widgets::radio_button_widget::RadioButtonWidget;
 
 #[derive(Default)]
-pub struct PushrodExample { }
+pub struct PushrodExample {}
 
 impl EventHandler for PushrodExample {
-    fn handle_event(&mut self, event: Event, cache: &mut WidgetCache) {
+    fn handle_event(&mut self, event: Event, _c: &mut WidgetCache) {
         match event {
             Pushrod(pushrod_event) => match pushrod_event {
                 PushrodEvent::DrawFrame { .. } => {}
