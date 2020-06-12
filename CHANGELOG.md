@@ -4,6 +4,7 @@ so that developers know what code to modify, if any modifications are necessary.
 ### v0.1.3
 
 - Created RadioButtonWidget example: `radio_widget`
+- Removed "get_by_name" as this function was not in use anywhere.
 
 ### v0.1.2
 

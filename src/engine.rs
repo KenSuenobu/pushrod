@@ -21,6 +21,9 @@ use pushrod_widgets::event::PushrodEvent::{DrawFrame, WidgetRadioSelected};
 use pushrod_widgets::event::{Event, PushrodEvent};
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::borrow::BorrowMut;
+use std::sync::{Mutex, Arc};
+use std::cell::RefCell;
 
 /// This is an event handler that is passed into a main event loop.  Since there can be multiple
 /// windows open at any one time, the event handler that is implemented using this `trait` should
@@ -260,6 +263,10 @@ impl Engine {
                 // Draw after events are processed.
                 self.cache.refresh(&mut canvas);
             }
+
+            let mut widget = self.cache.get_mut(1);
+
+            let vec_list = widget.build_layout();
 
             // And pause the CPU if required to keep the system at 60 fps.
             let now = SystemTime::now()
