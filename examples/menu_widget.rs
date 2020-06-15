@@ -21,13 +21,12 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{
-    PROPERTY_DISABLED, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE,
-    PROPERTY_MAIN_COLOR, PROPERTY_MENU_ITEM_ID, PROPERTY_TEXT,
-};
+use pushrod_widgets::properties::{PROPERTY_DISABLED, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR, PROPERTY_MENU_ITEM_ID, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER, PROPERTY_BORDER_WIDTH, PROPERTY_BORDER_COLOR, PROPERTY_NEEDS_LAYOUT, PROPERTY_HIDDEN};
 use pushrod_widgets::system_widgets::menu_item_widget::MenuItemWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
+use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
+use pushrod_widgets::system_widgets::popup_menu_widget::PopupMenuWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {}
@@ -56,7 +55,7 @@ impl EventHandler for PushrodExample {
             menu_item_widget
                 .properties()
                 .set_origin(20, 20 + (i * 20))
-                .set_bounds(360, 20)
+                .set_bounds(130, 20)
                 .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
                 .set(
                     PROPERTY_FONT_NAME,
@@ -73,6 +72,37 @@ impl EventHandler for PushrodExample {
 
             cache.add(Box::new(menu_item_widget), format!("widget{}", i), 0);
         }
+
+        let mut button1 = ButtonWidget::default();
+
+        button1
+            .properties()
+            .set_origin(160, 20)
+            .set_bounds(210, 30)
+            .set_color(PROPERTY_MAIN_COLOR, Color::WHITE)
+            .set(
+                PROPERTY_FONT_NAME,
+                String::from("assets/OpenSans-Regular.ttf"),
+            )
+            .set_value(PROPERTY_FONT_SIZE, 14)
+            .set_value(PROPERTY_FONT_STYLE, sdl2::ttf::FontStyle::NORMAL.bits())
+            .set_value(PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER)
+            .set_value(PROPERTY_BORDER_WIDTH, 2)
+            .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
+            .set(PROPERTY_TEXT, String::from("Popup"));
+
+        cache.add(Box::new(button1), String::from("button1"), 0);
+
+        let mut popup_widget = PopupMenuWidget::default();
+
+        popup_widget
+            .properties()
+            .set_origin(160, 60)
+            .set_bounds(20, 20)
+            .set_bool(PROPERTY_NEEDS_LAYOUT)
+            .set(PROPERTY_TEXT, String::from("1\n2\n3\n4\n5\n6\n7\n8"));
+
+        cache.add(Box::new(popup_widget), String::from("popup_widget"), 0);
     }
 }
 

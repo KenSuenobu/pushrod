@@ -22,6 +22,7 @@ use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::properties::PROPERTY_NEEDS_LAYOUT;
 use pushrod_widgets::widget::Widget;
 use std::thread::sleep;
+use std::any::type_name;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 /// This is an event handler that is passed into a main event loop.  Since there can be multiple
@@ -248,6 +249,8 @@ impl Engine {
             let parent_id = addable.parent_id;
             let resulting_ids = self.cache.add_vec(widget_list, parent_id);
 
+            eprintln!("IDs: {:?}", resulting_ids);
+
             self.cache
                 .get_mut(parent_id)
                 .constructed_layout_ids(resulting_ids);
@@ -310,6 +313,7 @@ impl Engine {
 
             // Any Widgets that need a layout can be handled here.
             if self.cache.needs_layout() {
+                eprintln!("Needs layout");
                 self.handle_build_layout();
             }
 
