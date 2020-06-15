@@ -21,12 +21,17 @@ use pushrod_widgets::caches::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
-use pushrod_widgets::properties::{PROPERTY_DISABLED, PROPERTY_FONT_NAME, PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR, PROPERTY_MENU_ITEM_ID, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER, PROPERTY_BORDER_WIDTH, PROPERTY_BORDER_COLOR, PROPERTY_NEEDS_LAYOUT, PROPERTY_HIDDEN};
+use pushrod_widgets::properties::{
+    PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_DISABLED, PROPERTY_FONT_NAME,
+    PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_HIDDEN, PROPERTY_MAIN_COLOR,
+    PROPERTY_MENU_ITEM_ID, PROPERTY_NEEDS_LAYOUT, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION,
+    TEXT_JUSTIFY_CENTER,
+};
+use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
 use pushrod_widgets::system_widgets::menu_item_widget::MenuItemWidget;
+use pushrod_widgets::system_widgets::popup_menu_widget::PopupMenuWidget;
 use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
-use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
-use pushrod_widgets::system_widgets::popup_menu_widget::PopupMenuWidget;
 
 #[derive(Default)]
 pub struct PushrodExample {}

@@ -21,8 +21,8 @@ use pushrod_widgets::event::PushrodEvent::{DrawFrame, WidgetRadioSelected};
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::properties::PROPERTY_NEEDS_LAYOUT;
 use pushrod_widgets::widget::Widget;
-use std::thread::sleep;
 use std::any::type_name;
+use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 /// This is an event handler that is passed into a main event loop.  Since there can be multiple
