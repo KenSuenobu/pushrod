@@ -17,8 +17,10 @@ use sdl2::video::Window;
 use sdl2::Sdl;
 
 use pushrod_widgets::caches::WidgetCache;
-use pushrod_widgets::event::PushrodEvent::DrawFrame;
+use pushrod_widgets::event::PushrodEvent::{DrawFrame, WidgetRadioSelected};
 use pushrod_widgets::event::{Event, PushrodEvent};
+use pushrod_widgets::properties::PROPERTY_NEEDS_LAYOUT;
+use pushrod_widgets::widget::Widget;
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
@@ -55,6 +57,12 @@ pub struct Engine {
     handler: Box<dyn EventHandler>,
     cache: WidgetCache,
     running: bool,
+}
+
+#[derive(Default)]
+pub struct WidgetAddList {
+    add_list: Vec<Box<dyn Widget>>,
+    parent_id: u32,
 }
 
 /// This is an implementation of `Pushrod`, the main loop handler.  Multiple `Pushrod`s
@@ -102,7 +110,18 @@ impl Engine {
 
             if let Some(x) = handled_event {
                 self.handler
-                    .handle_event(Event::Pushrod(x), &mut self.cache)
+                    .handle_event(Event::Pushrod(x.clone()), &mut self.cache);
+
+                // RESEND the event ONLY IF the event qualifies as a re-distributable event, as the widget's
+                // generated event has already been sent to the handler.  This could potentially cause
+                // an infinite loop, so this needs to be used with care.
+                //
+                // Clippy is complaining about this being only one event.  This will eventually become
+                // multiple events that are handled by a "rebroadcast" flag soon.
+                match x {
+                    WidgetRadioSelected { .. } => self.send_event_to_all(x.clone()),
+                    _ => {}
+                }
             }
         }
     }
@@ -193,6 +212,50 @@ impl Engine {
         }
     }
 
+    /// This function handles the building of additional `Widget`s to the `WidgetCache` if a newly
+    /// added `Widget` (or one that has been interacted with) needs to have additional `Widget`s added
+    /// to the `WidgetCache`.
+    fn handle_build_layout(&mut self) {
+        let num_widgets = self.cache.size();
+        let mut add_list: Vec<WidgetAddList> = Vec::new();
+
+        // First, build the list of Widgets that are required for each Widget that needs a layout.
+        // Any Widgets that need to be built are stored in the add_list, and are processed after
+        // processing the list that needs to be built.
+        for i in 0..num_widgets {
+            let mut widget = self.cache.get(i);
+
+            if widget.properties().get_bool(PROPERTY_NEEDS_LAYOUT) {
+                let widget_list = widget.build_layout();
+                let mut add_entries = WidgetAddList::default();
+
+                add_entries.add_list = widget_list;
+                add_entries.parent_id = i;
+                add_list.push(add_entries);
+
+                widget.properties().delete(PROPERTY_NEEDS_LAYOUT);
+            }
+        }
+
+        // Skip over the next logic if the list is empty.
+        if add_list.is_empty() {
+            return;
+        }
+
+        // Walk the tree of widgets to add, and add them directly to the cache here.
+        for addable in add_list {
+            let widget_list = addable.add_list;
+            let parent_id = addable.parent_id;
+            let resulting_ids = self.cache.add_vec(widget_list, parent_id);
+
+            eprintln!("IDs: {:?}", resulting_ids);
+
+            self.cache
+                .get_mut(parent_id)
+                .constructed_layout_ids(resulting_ids);
+        }
+    }
+
     /// This is the main event handler for the application.  It handles all of the events generated
     /// by the `SDL2` manager, and translates them into events that can be used by the `handle_event`
     /// method.
@@ -247,7 +310,13 @@ impl Engine {
                     .as_millis(),
             );
 
-            // Draw the screen if any widgets have been invalidated
+            // Any Widgets that need a layout can be handled here.
+            if self.cache.needs_layout() {
+                eprintln!("Needs layout");
+                self.handle_build_layout();
+            }
+
+            // Draw the screen if any widgets have been invalidated or added to the display list
             if self.cache.invalidated() {
                 // Draw after events are processed.
                 self.cache.refresh(&mut canvas);
