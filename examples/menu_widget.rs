@@ -40,6 +40,18 @@ pub struct PushrodExample {
     popup_menu_shown: bool,
 }
 
+impl PushrodExample {
+    fn toggle_popup_menu(&mut self, cache: &mut WidgetCache) {
+        if !self.popup_menu_shown {
+            cache.set_hidden(self.popup_menu_id, false);
+        } else {
+            cache.set_hidden(self.popup_menu_id, true);
+        }
+
+        self.popup_menu_shown = !self.popup_menu_shown;
+    }
+}
+
 impl EventHandler for PushrodExample {
     fn handle_event(&mut self, event: Event, _cache: &mut WidgetCache) {
         match event {
@@ -53,6 +65,7 @@ impl EventHandler for PushrodExample {
 
                     if widget_parent == self.popup_menu_id {
                         eprintln!("Popup menu item selected: {}", menu_item);
+                        self.toggle_popup_menu(_cache);
                     } else {
                         eprintln!("Menu item ID selected: {} widget={}", menu_item, widget_id);
                     }
@@ -64,13 +77,7 @@ impl EventHandler for PushrodExample {
                 } => {
                     if button == 1 && clicks == 1 {
                         if widget_id == self.button1_id {
-                            if !self.popup_menu_shown {
-                                _cache.set_hidden(self.popup_menu_id, false);
-                            } else {
-                                _cache.set_hidden(self.popup_menu_id, true);
-                            }
-
-                            self.popup_menu_shown = !self.popup_menu_shown;
+                            self.toggle_popup_menu(_cache);
                         }
                     }
                 }
