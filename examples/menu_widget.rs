@@ -34,7 +34,11 @@ use pushrod_widgets::widget::Widget;
 use sdl2::pixels::Color;
 
 #[derive(Default)]
-pub struct PushrodExample {}
+pub struct PushrodExample {
+    button1_id: u32,
+    popup_menu_id: u32,
+    popup_menu_shown: bool,
+}
 
 impl EventHandler for PushrodExample {
     fn handle_event(&mut self, event: Event, _cache: &mut WidgetCache) {
@@ -42,9 +46,34 @@ impl EventHandler for PushrodExample {
             Pushrod(pushrod_event) => match pushrod_event {
                 PushrodEvent::DrawFrame { .. } => {}
                 PushrodEvent::WidgetMenuItemSelected {
-                    widget_id: _,
+                    widget_id,
                     menu_item,
-                } => eprintln!("Menu item ID selected: {}", menu_item),
+                } => {
+                    let widget_parent = _cache.get_parent_of(widget_id);
+
+                    if widget_parent == self.popup_menu_id {
+                        eprintln!("Popup menu item selected: {}", menu_item);
+                    } else {
+                        eprintln!("Menu item ID selected: {} widget={}", menu_item, widget_id);
+                    }
+                },
+                PushrodEvent::WidgetClicked {
+                    widget_id,
+                    button,
+                    clicks,
+                } => {
+                    if button == 1 && clicks == 1 {
+                        if widget_id == self.button1_id {
+                            if !self.popup_menu_shown {
+                                _cache.set_hidden(self.popup_menu_id, false);
+                            } else {
+                                _cache.set_hidden(self.popup_menu_id, true);
+                            }
+
+                            self.popup_menu_shown = !self.popup_menu_shown;
+                        }
+                    }
+                }
                 x => eprintln!("Pushrod unhandled event: {:?}", x),
             },
             Event::SDL2(x) => {
@@ -96,7 +125,7 @@ impl EventHandler for PushrodExample {
             .set_color(PROPERTY_BORDER_COLOR, Color::BLACK)
             .set(PROPERTY_TEXT, String::from("Popup"));
 
-        cache.add(Box::new(button1), String::from("button1"), 0);
+        self.button1_id = cache.add(Box::new(button1), String::from("button1"), 0);
 
         let mut popup_widget = PopupMenuWidget::default();
 
@@ -107,7 +136,7 @@ impl EventHandler for PushrodExample {
             .set_bool(PROPERTY_NEEDS_LAYOUT)
             .set(PROPERTY_TEXT, String::from("1\n2\n3\n4\n5\n6\n7\n8"));
 
-        cache.add(Box::new(popup_widget), String::from("popup_widget"), 0);
+        self.popup_menu_id = cache.add(Box::new(popup_widget), String::from("popup_widget"), 0);
     }
 }
 
