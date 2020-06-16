@@ -21,7 +21,6 @@ use pushrod_widgets::event::PushrodEvent::{DrawFrame, WidgetRadioSelected};
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::properties::PROPERTY_NEEDS_LAYOUT;
 use pushrod_widgets::widget::Widget;
-use std::any::type_name;
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
