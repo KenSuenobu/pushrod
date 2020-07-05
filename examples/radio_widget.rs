@@ -17,7 +17,7 @@ extern crate pushrod;
 extern crate sdl2;
 
 use pushrod::engine::{Engine, EventHandler};
-use pushrod_widgets::caches::WidgetCache;
+use pushrod_widgets::cache::widget_cache::WidgetCache;
 use pushrod_widgets::event::Event::Pushrod;
 use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;

@@ -17,7 +17,7 @@ extern crate pushrod;
 extern crate sdl2;
 
 use pushrod::engine::{Engine, EventHandler};
-use pushrod_widgets::caches::WidgetCache;
+use pushrod_widgets::cache::widget_cache::WidgetCache;
 use pushrod_widgets::primitives::init_application;
 use pushrod_widgets::properties::{
     PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_GRID_COLOR, PROPERTY_GRID_CONNECTED,
