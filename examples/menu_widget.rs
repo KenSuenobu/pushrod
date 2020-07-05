@@ -23,9 +23,8 @@ use pushrod_widgets::event::{Event, PushrodEvent};
 use pushrod_widgets::primitives::init_application;
 use pushrod_widgets::properties::{
     PROPERTY_BORDER_COLOR, PROPERTY_BORDER_WIDTH, PROPERTY_DISABLED, PROPERTY_FONT_NAME,
-    PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR,
-    PROPERTY_MENU_ITEM_ID, PROPERTY_NEEDS_LAYOUT, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION,
-    TEXT_JUSTIFY_CENTER,
+    PROPERTY_FONT_SIZE, PROPERTY_FONT_STYLE, PROPERTY_MAIN_COLOR, PROPERTY_MENU_ITEM_ID,
+    PROPERTY_NEEDS_LAYOUT, PROPERTY_TEXT, PROPERTY_TEXT_JUSTIFICATION, TEXT_JUSTIFY_CENTER,
 };
 use pushrod_widgets::system_widgets::button_widget::ButtonWidget;
 use pushrod_widgets::system_widgets::menu_item_widget::MenuItemWidget;
@@ -69,7 +68,7 @@ impl EventHandler for PushrodExample {
                     } else {
                         eprintln!("Menu item ID selected: {} widget={}", menu_item, widget_id);
                     }
-                },
+                }
                 PushrodEvent::WidgetClicked {
                     widget_id,
                     button,
