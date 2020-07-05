@@ -1,6 +1,11 @@
 In this file will be listed the changes.  Any breaking changes will be boldfaced
 so that developers know what code to modify, if any modifications are necessary.
 
+### v0.1.4
+
+- Updated to use the caching mechanism updates from pushrod-widgets [PR #34]
+
+
 ### v0.1.3
 
 - Created RadioButtonWidget example: `radio_widget`
